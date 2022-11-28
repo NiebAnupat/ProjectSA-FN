@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
-      <v-text class="mt-7">วันอังคาร ที่ 13 มกราคม 2565</v-text>
+      <p class="mt-7">วันอังคาร ที่ 13 มกราคม 2565</p>
     </div>
     <v-divider class="mt-3"></v-divider>
 

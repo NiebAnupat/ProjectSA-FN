@@ -18,7 +18,7 @@
             <td class="text-center">
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
+                  <v-btn icon v-bind="attrs" v-on="on" to="/HR/Info">
                     <v-icon color="grey" class="mx-1"> mdi-book-search </v-icon>
                   </v-btn>
                 </template>
