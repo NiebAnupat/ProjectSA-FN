@@ -37,7 +37,7 @@
       <template v-slot:item.action="{ item }">
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
+            <v-btn icon v-bind="attrs" v-on="on" nuxt @click="dialog = true">
               <v-icon color="grey" class="mx-1"> mdi-book-search </v-icon>
             </v-btn>
           </template>
@@ -45,6 +45,91 @@
         </v-tooltip>
       </template></v-data-table
     >
+    <div>
+      <div>
+        <v-dialog
+          v-model="dialog"
+          scrollable
+          :overlay="false"
+          max-width="550px"
+        >
+          <v-card height="620" class="pa-4">
+            <v-card-title> รายละเอียดการนัดหมาย </v-card-title>
+            <v-card-text>
+              <v-row>
+                <v-col cols="6">
+                  <v-text-field
+                    label="ผู้นัดหมาย"
+                    v-model="detail.createby"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+                    label="หัวข้อ"
+                    v-model="detail.subject"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="detail.name"
+                    label="ผู้เข้าร่วม"
+                    outlined
+                    readonly
+                    rows="3"
+                    hide-details
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col cols="6">
+                  <v-text-field
+                    label="วัน"
+                    v-model="detail.date"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field
+                    label="เวลา"
+                    v-model="detail.time"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field
+                    label="สถานที่"
+                    v-model="detail.location"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col cols="12">
+                  <v-textarea
+                    v-model="detail.detail"
+                    label="รายละเอียด"
+                    outlined
+                    readonly
+                    rows="3"
+                    hide-details
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,7 +152,7 @@ export default {
           class: 'text-center',
         },
         {
-          text: 'ชื่อ',
+          text: 'ผู้นัดหมาย',
           align: 'start',
           sortable: false,
           value: 'name',
@@ -124,6 +209,16 @@ export default {
           status: '',
         },
       ],
+
+      detail: {
+        creatby: 'นางสาวสุชานาถ คุ้มบุ่งคล้า',
+        name: ['นางสาวอนุภัทร แก้วมี', 'นางสาวชัยวัฒน์ แสงศรี'],
+        subject: 'นัดหมายการทำงาน',
+        location: 'ห้องประชุม',
+        date: '12-12-2020',
+        time: '10.00 - 11.00 น.',
+        detail: 'นัดหมายการทำงาน',
+      },
     }
   },
 }

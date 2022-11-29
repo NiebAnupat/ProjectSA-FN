@@ -8,7 +8,7 @@
 
       <!-- Picture -->
       <div class="mt-5 d-flex justify-center">
-        <img height="220" src="~/assets/Team7.jpg" />
+        <img height="220" src="~/assets/Logo.jpg" />
       </div>
 
       <v-card-text class="mt-4">

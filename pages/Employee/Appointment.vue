@@ -50,6 +50,120 @@
     <div v-else>
       <AddAp :s="search" />
     </div>
+
+    <div class="text-right">
+      <v-btn class="mt-6" fab dark color="indigo" nuxt @click="dialog = true">
+        <v-icon dark> mdi-plus </v-icon>
+      </v-btn>
+    </div>
+
+    <div>
+      <v-dialog v-model="dialog" scrollable :overlay="false" max-width="550px">
+        <v-card height="620" class="pa-4">
+          <v-card-title> รายละเอียดการนัดหมาย </v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  label="ผู้นัดหมาย"
+                  v-model="createby"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field label="หัวข้อ" v-model="subject"></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="name"
+                  label="ผู้เข้าร่วม"
+                  outlined
+                  rows="3"
+                  hide-details
+                ></v-textarea>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="6">
+                <v-menu
+                  v-model="datePicker"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="date"
+                      label="วัน"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="date"
+                    @input="datePicker = false"
+                    scrollable
+                    color="primary"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  v-model="timPicker"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="time"
+                      label="เวลา"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-time-picker
+                    v-model="time"
+                    @input="timePicker = false"
+                    scrollable
+                    color="primary"
+                  ></v-time-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12">
+                <v-text-field label="สถานที่" v-model="location"></v-text-field>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="detail"
+                  label="รายละเอียด"
+                  outlined
+                  rows="3"
+                  hide-details
+                ></v-textarea>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
@@ -66,9 +180,19 @@ export default {
 
   data() {
     return {
+      dialog: false,
       checkTable: false,
       addTable: false,
       search: '',
+      creatby: '',
+      name: '',
+      subject: '',
+      location: '',
+      date: null,
+      time: null,
+      detail: '',
+      datePicker: false,
+      timePicker: false,
     }
   },
 }

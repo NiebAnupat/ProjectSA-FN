@@ -91,7 +91,7 @@ export default {
         avatar: 'https://ui-avatars.com/api/background=random',
       },
       admin: {
-        name: 'นางสาว ธนพล สุขสวัสดิ์',
+        name: 'นาย ธนพล สุขสวัสดิ์',
         avatar: 'https://ui-avatars.com/api/background=random',
       },
 

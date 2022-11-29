@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="pt-16">
-      <h1 class="d-flex justify-center">RSU COMPANY</h1>
+      <h1 class="d-flex justify-center">S.T. Step Built Co.,Ltd</h1>
+      <h3 class="d-flex justify-center">บริษัท เอส.ที. เสตพ บิลท์ จำกัด</h3>
     </div>
     <v-row class="align-center" style="height: 60vh">
       <v-col cols="6">

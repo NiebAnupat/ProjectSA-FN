@@ -52,8 +52,8 @@
         <!-- Dialog -->
         <!-- Edit -->
         <v-dialog v-model="dialog" max-width="500" scrollable>
-          <v-card width="500" height="600" class="rounded-lg">
-            <v-card-title> แก้ไขข้อมูล </v-card-title>
+          <v-card width="500" height="400" class="rounded-lg pa-4">
+            <v-card-title> แก้ไขรูปภาพ </v-card-title>
             <v-card-text>
               <v-file-input
                 v-model="editImg"
@@ -67,7 +67,9 @@
                 :rules="[(v) => !!v || 'กรุณาเลือกรูปภาพ']"
               ></v-file-input>
               <!-- Show image -->
-              <img :src="editImg" />
+              <div class="d-flex justify-center pt-6">
+                <img :src="editImg" />
+              </div>
 
               <v-row>
                 <v-col cols="12">
@@ -75,6 +77,10 @@
                 </v-col>
               </v-row>
             </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="primary darken-2">ยืนยัน</v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
 

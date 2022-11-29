@@ -7,7 +7,7 @@
 
     <!-- Pic -->
     <div class="d-flex justify-center pa-10">
-      <img height="250" src="~/assets/Team7.jpg" />
+      <img height="250" src="~/assets/Logo.jpg" />
     </div>
 
     <!-- Check in / Check out -->
