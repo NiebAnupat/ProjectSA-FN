@@ -2,7 +2,24 @@
   <div>
     <div class="d-flex">
       <h1 class="mt-2">ข้อมูลพนักงาน</h1>
-      <v-spacer></v-spacer>
+      <div class="mt-2">
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              v-bind="attrs"
+              v-on="on"
+              class="lighten-3 mt-2 mx-3"
+              nuxt
+            >
+              <v-icon>mdi-share-all</v-icon>
+            </v-btn>
+          </template>
+
+          <span>พิมพ์ใบเสร็จเงินเดือนทั้งหมด</span>
+        </v-tooltip>
+      </div>
+
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <!-- Search -->
@@ -26,9 +43,9 @@
         <v-col cols="3">
           <v-card class="text-center">
             <v-img
-              v-model="picture"
+              v-model="Img"
               class="mt-6 rounded-xl"
-              src="~/assets/237603.jpg"
+              src=""
               height="250"
               width="220"
               nuxt
@@ -38,11 +55,42 @@
             <v-card-text class="text-h6">รหัส : 6401861</v-card-text>
           </v-card>
 
-          <v-col cols="12" class="mt-2 d-flex justify-center">
-            <v-btn icon x-large class="grey lighten-3 mx-3" nuxt
-              ><v-icon>mdi-account-edit</v-icon></v-btn
-            >
-          </v-col>
+          <v-row class="mt-4 d-flex justify-center">
+            <v-col cols="3">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    x-large
+                    v-bind="attrs"
+                    v-on="on"
+                    class="grey lighten-3 mx-3"
+                    nuxt
+                    ><v-icon>mdi-account-edit</v-icon></v-btn
+                  >
+                </template>
+
+                <span>บันทึกข้อมูล</span>
+              </v-tooltip>
+            </v-col>
+            <v-col cols="3">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    x-large
+                    v-bind="attrs"
+                    v-on="on"
+                    class="grey lighten-3 mx-3"
+                    nuxt
+                    ><v-icon>mdi-file-chart</v-icon></v-btn
+                  >
+                </template>
+
+                <span>พิมพ์ใบเสร็จรับเงิน</span>
+              </v-tooltip>
+            </v-col>
+          </v-row>
         </v-col>
 
         <!-- Dialog -->
@@ -55,16 +103,15 @@
                 v-model="editImg"
                 label="รูปภาพ"
                 show-size
-                counter
-                multiple
-                small
-                small-chips
-                ref="imgRef"
-                :rules="[(v) => !!v || 'กรุณาเลือกรูปภาพ']"
+                accept="image/*"
               ></v-file-input>
               <!-- Show image -->
               <div class="d-flex justify-center pt-6">
-                <img :src="editImg" />
+                <img
+                  :src="editImg != null ? getImgURL(editImg) : ''"
+                  height="450"
+                  width="300"
+                />
               </div>
             </v-card-text>
             <v-card-actions>
@@ -80,17 +127,12 @@
             <v-card-text class="px-8 title">
               <v-row>
                 <v-col cols="6">
-                  <v-text-field
-                    v-model="empDetail.Fname"
-                    label="ชื่อ"
-                    readonly
-                  ></v-text-field>
+                  <v-text-field v-model="empDetail.Fname"></v-text-field>
                 </v-col>
                 <v-col cols="6"
                   ><v-text-field
                     v-model="empDetail.Lname"
                     label="นามสกุล"
-                    readonly
                   ></v-text-field
                 ></v-col>
               </v-row>
@@ -114,7 +156,6 @@
                   ><v-text-field
                     v-model="empDetail.tel"
                     label="เบอร์โทร"
-                    readonly
                   ></v-text-field
                 ></v-col>
               </v-row>
@@ -124,14 +165,12 @@
                   <v-text-field
                     v-model="empDetail.department"
                     label="แผนก"
-                    readonly
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6"
                   ><v-text-field
                     v-model="empDetail.position"
                     label="ตำแหน่ง"
-                    readonly
                   ></v-text-field
                 ></v-col>
               </v-row>
@@ -142,7 +181,6 @@
                     v-model="empDetail.address"
                     label="ที่อยู่"
                     outlined
-                    readonly
                     rows="3"
                     hide-details
                   ></v-textarea>
@@ -154,7 +192,6 @@
                   <v-text-field
                     v-model="empDetail.salary"
                     label="เงินเดือน"
-                    readonly
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6"
@@ -171,7 +208,6 @@
                   <v-text-field
                     v-model="empDetail.isActivate"
                     label="สถานะ"
-                    readonly
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6"
@@ -189,12 +225,14 @@
     </div>
   </div>
 </template>
+picture
 
 <script>
 export default {
-  name: 'EmpInfo',
+  name: 'info',
   async asyncData({ store }) {
     store.dispatch('Auth/setAuthTrue')
+    store.dispatch('Auth/setAdminTrue')
   },
 
   data() {
@@ -203,6 +241,7 @@ export default {
       editImg: null,
       search: '',
       empID: '6401861',
+      Img: null,
       empDetail: {
         Fname: 'นางสาว สุชานาถ',
         Lname: 'คุ้มบุ่งคล้า',
@@ -222,12 +261,8 @@ export default {
   },
 
   methods: {
-    imgIsExist() {
-      return this.editImg.image.length > 0 ? true : false
-    },
-
-    editPicExist() {
-      return this.editImg.image.length > 0 ? true : false
+    getImgURL(img) {
+      return URL.createObjectURL(img)
     },
   },
 }

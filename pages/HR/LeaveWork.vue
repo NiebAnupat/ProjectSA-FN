@@ -22,15 +22,18 @@
     <div>
       <v-row class="mt-2">
         <v-col cols="5">
+          <p class="mx-12">อนุมัติแล้ว</p>
           <v-card class="rounded-xl" height="320">
             <rejectTable class="pa-2" />
           </v-card>
+          <p class="mt-6 mx-12">ปฏิเสธแล้ว</p>
           <v-card class="rounded-xl mt-3" height="320">
             <denyTable class="pa-2" />
           </v-card>
         </v-col>
         <v-col cols="7">
-          <v-card class="rounded-xl pa-2" height="645">
+          <p class="mx-12">เอกสารการลาทั้งหมด</p>
+          <v-card class="rounded-xl pa-2" height="700">
             <allTable />
           </v-card>
         </v-col>
@@ -47,7 +50,14 @@ export default {
   components: { denyTable, rejectTable, allTable },
   name: 'LeaveWork',
   async asyncData({ store }) {
+    store.dispatch('Auth/setAuthTrue')
     store.dispatch('Auth/setAdminTrue')
+  },
+
+  data() {
+    return {
+      search: '',
+    }
   },
 }
 </script>

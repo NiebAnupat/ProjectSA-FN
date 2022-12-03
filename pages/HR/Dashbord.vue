@@ -77,6 +77,7 @@ import leaveEmp from '~/components/HR/leaveEmp.vue'
 export default {
   name: 'Dashbord',
   async asyncData({ store }) {
+    store.dispatch('Auth/setAuthTrue')
     store.dispatch('Auth/setAdminTrue')
   },
 

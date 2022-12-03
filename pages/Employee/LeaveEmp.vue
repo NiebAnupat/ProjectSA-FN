@@ -9,10 +9,9 @@
       <v-card class="pa-4">
         <v-row>
           <v-spacer></v-spacer>
-          <v-card-title class="">
-            *การลาประเภทลาป่วยที่ลามากกว่า 3 วัน
-            กรุณาแนบใบรับรองแพทย์มาด้วย</v-card-title
-          >
+          <p class="pa-4 grey--text">
+            *การลาประเภทลาป่วยที่ลามากกว่า 3 วัน กรุณาแนบใบรับรองแพทย์มาด้วย
+          </p>
         </v-row>
 
         <v-card-text class="mt-6">
