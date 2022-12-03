@@ -162,17 +162,25 @@
 
               <v-row>
                 <v-col cols="6">
-                  <v-text-field
-                    v-model="empDetail.department"
-                    label="แผนก"
-                  ></v-text-field>
+                  <v-container fluid>
+                    <v-select
+                      v-model="empDetail.department"
+                      :items="typeDept"
+                      label="แผนก"
+                      dense
+                    ></v-select>
+                  </v-container>
                 </v-col>
-                <v-col cols="6"
-                  ><v-text-field
-                    v-model="empDetail.position"
-                    label="ตำแหน่ง"
-                  ></v-text-field
-                ></v-col>
+                <v-col cols="6">
+                  <v-container fluid>
+                    <v-select
+                      v-model="empDetail.position"
+                      :items="typePost"
+                      label="ตำแหน่ง"
+                      dense
+                    ></v-select>
+                  </v-container>
+                </v-col>
               </v-row>
 
               <v-row>
@@ -242,6 +250,15 @@ export default {
       search: '',
       empID: '6401861',
       Img: null,
+      typeDept: [
+        'ฝ่ายจัดซื้อ',
+        'ฝ่ายบุคคล',
+        'บัญชี',
+        'วิศวกร',
+        'ฝ่ายประมูลงาน',
+        'แม่บ้าน',
+      ],
+      typePost: ['พนักงานทั่วไป', 'หัวหน้า', 'ผู้บริหาร'],
       empDetail: {
         Fname: 'นางสาว สุชานาถ',
         Lname: 'คุ้มบุ่งคล้า',

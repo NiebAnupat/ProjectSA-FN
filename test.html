@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+    
+        td,
+        th {
+            text-align: left;
+            padding: 8px;
+        }
+    
+        
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-main>
+                <v-container>
+                    <h2>Pay Slip - ใบเสร็จเงินเดือน</h2>
+
+                    <div class="d-flex mt-6">
+                        <v-row >
+                            <img src="/Logo.jpg" height="55" width="55">
+                            <p class="mt-2 mx-4" style="font-size: 130%;">บริษัท เอส.ที. เสตพ บิลท์ จำกัด</p>
+                        </v-row>
+                    </div>
+
+                    <div class="mt-10">
+                        <v-row>
+                            <v-col cols="6">
+                                <label >
+                                    Employee Code / รหัสพนักงาน :
+                                </label>
+                                <label for="EmpID" class="mx-6">6401861</label>
+                            </v-col>
+                            <v-col cols="6">
+                                <label>
+                                    Period / ระยะเวลา :
+                                </label>
+                                <label for="period" class="mx-6">01/03/2020 - 02/04/2020</label>
+                            </v-col>
+                        </v-row>
+
+                        <v-row class="mt-n6">
+                            <v-col cols="6">
+                                <label>
+                                    Employee Name / ชื่อพนักงาน :
+                                </label>
+                                <label for="EmpName" class="mx-6">นางสาว สุชานาถ คุ้มบุ่งคล้า</label>
+                            </v-col>
+                            <v-col cols="6">
+                                <label>
+                                    Payment Date / ระยะเวลาจัดทำบัญชีเงินเดือน :
+                                </label>
+                                <label for="period" class="mx-6">01/03/2020 - 02/04/2020</label>
+                            </v-col>
+                        </v-row>
+
+                        <v-row class="mt-n6">
+                            <v-col cols="6">
+                                <label>
+                                    Dapartment / แผนก :
+                                </label>
+                                <label for="EmpName" class="mx-6">บุคคล</label>
+                            </v-col>
+                            <v-col cols="6">
+                                <label>
+                                   Month / เดือน :
+                                </label>
+                                <label for="period" class="mx-13">01/03/2020</label>
+                            </v-col>
+                        </v-row>
+
+
+                    </div>
+
+                    <v-spacer></v-spacer>
+                    <v-spacer></v-spacer>
+
+                    <div class="mt-16">
+                        <table>
+                            <thead style="border-bottom: 1px solid #dddddd;">
+                                <tr>
+                                    <th>Income / รายได้</th>
+                                    <th>THB</th>
+                                    <th>Deductions / รายการหัก</th>
+                                    <th>THB</th>  
+                                </tr>
+                            </thead>
+                            
+                            
+                            <tr>
+                                <td>Salary / เงินเดือน</td>
+                                <td>0.00</td>
+                                <td>Tax / ภาษีเงินได้ส่วนบุคคล</td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #dddddd;">
+                                <td></td>
+                                <td></td>
+                                <td>Social Security / ประกันสังคม</td>
+                                <td>0.00</td>
+                            </tr>
+
+                            <thead>
+                                <tr>
+                                    <th>Total Incom / รายได้ทั้งหมด</th>
+                                    <th>0.00</th>
+                                    <th>Total Deductions / การหักทั้งหมด</th>
+                                    <th>0.00</th>
+                                </tr>
+                            </thead>
+
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>รายได้สุทธิ</th>
+                                    <th>0.00</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div> 
+
+                    
+                </v-container>
+            </v-main>
+        </v-app>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+        })
+    </script>
+</body>
+
+</html>
