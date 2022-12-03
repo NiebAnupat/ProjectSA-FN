@@ -25,26 +25,22 @@
         <!-- Picture -->
         <v-col cols="3">
           <v-card class="text-center">
-            <img
+            <v-img
+              v-model="picture"
               class="mt-6 rounded-xl"
               src="~/assets/237603.jpg"
               height="250"
               width="220"
-            />
+              nuxt
+              @click="dialog = true"
+            ></v-img>
+
             <v-card-text class="text-h6">รหัส : 6401861</v-card-text>
           </v-card>
 
           <v-col cols="12" class="mt-2 d-flex justify-center">
-            <v-btn
-              icon
-              x-large
-              class="grey lighten-3 mx-3"
-              nuxt
-              @click="dialog = true"
+            <v-btn icon x-large class="grey lighten-3 mx-3" nuxt
               ><v-icon>mdi-account-edit</v-icon></v-btn
-            >
-            <v-btn icon x-large class="grey lighten-3 mx-3"
-              ><v-icon>mdi-file-chart</v-icon></v-btn
             >
           </v-col>
         </v-col>

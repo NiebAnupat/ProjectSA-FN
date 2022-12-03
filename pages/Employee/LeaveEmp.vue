@@ -1,0 +1,147 @@
+<template>
+  <div>
+    <div>
+      <h1 class="mt-2">ส่งเอกสารลางาน</h1>
+      <v-divider class="mt-3"></v-divider>
+    </div>
+
+    <div class="mt-14">
+      <v-card class="pa-4">
+        <v-row>
+          <v-spacer></v-spacer>
+          <v-card-title class="">
+            *การลาประเภทลาป่วยที่ลามากกว่า 3 วัน
+            กรุณาแนบใบรับรองแพทย์มาด้วย</v-card-title
+          >
+        </v-row>
+
+        <v-card-text class="mt-6">
+          <!-- Leave Date -->
+          <v-row cols="12">
+            <v-col md="6">
+              <v-menu
+                v-model="fromDatePicker"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="fromDate"
+                    label="วันที่ต้องการลา"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="fromDate"
+                  @input="fromDatePicker = false"
+                  scrollable
+                  color="primary"
+                ></v-date-picker>
+              </v-menu>
+            </v-col>
+
+            <v-col cols="6">
+              <v-menu
+                v-model="toDatePicker"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="toDate"
+                    label="ถึงวันที่"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="toDate"
+                  @input="toDatePicker = false"
+                  scrollable
+                  color="primary"
+                ></v-date-picker>
+              </v-menu>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="4">
+              <v-container fluid>
+                <v-select :items="type" label="ประเภท" dense></v-select>
+              </v-container>
+            </v-col>
+            <v-col cols="4">
+              <v-text-field v-model="other" label="อื่นๆ"></v-text-field>
+            </v-col>
+            <!-- Document -->
+            <v-col cols="4">
+              <v-file-input
+                label="เอกสารแนบ"
+                prepend-icon="mdi-paperclip"
+                accept="image/*"
+                show-size
+                color="primary"
+              ></v-file-input>
+            </v-col>
+          </v-row>
+
+          <!-- Text -->
+          <v-row mt-n5>
+            <v-col cols="12">
+              <v-textarea
+                v-model="doc"
+                label="หมายเหตุ"
+                placeholder="ระบุเหตุผลการลางาน"
+                outlined
+              ></v-textarea>
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text class="primary darken-2">ยืนยัน</v-btn>
+        </v-card-actions>
+      </v-card>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: 'LeaveEmp',
+
+  async asyncData({ store }) {
+    store.dispatch('Auth/setAuthTrue')
+  },
+
+  data() {
+    return {
+      fromDate: null,
+      toDate: null,
+      fromDatePicker: false,
+      toDatePicker: false,
+      type: [
+        'ลาป่วย',
+        'ลากิจ',
+        'ลาพักร้อน',
+        'ลาคลอดบุตร',
+        'ลาอุปสมบท',
+        'อื่น ๆ',
+      ],
+      other: null,
+      doc: null,
+    }
+  },
+}
+</script>
+<style lang="scss"></style>

@@ -7,7 +7,7 @@
 
     <!-- Pic -->
     <div class="d-flex justify-center pa-10">
-      <img height="250" src="~/assets/Logo.jpg" />
+      <img height="250" width="2000" src="~/assets/Pic00.jpg" />
     </div>
 
     <!-- Check in / Check out -->
@@ -33,7 +33,7 @@
     <div>
       <v-row class="pt-10">
         <v-col>
-          <v-card nuxt @click="dialog = true">
+          <v-card to="/Employee/LeaveEmp">
             <v-card-title class="d-flex justify-center">ลางาน</v-card-title>
           </v-card>
         </v-col>
@@ -42,41 +42,35 @@
 
     <!-- Dialog -->
     <!-- Checkin -->
-    <v-dialog v-model="checkIn" hide-overlay max-width="320">
-      <v-card height="200" width="320" class="green pa-6">
+    <v-dialog v-model="checkIn" hide-overlay max-width="350">
+      <v-card height="150" class="green pa-6">
         <v-card-title class="d-flex justify-center white--text">
           <span>ลงชื่อเข้าทำงานสำเร็จ!</span>
         </v-card-title>
         <v-card-text class="d-flex justify-center mt-2 white--text">
-          <v-row>
-            <v-card-text> วันที่ : </v-card-text>
-            <v-card-text> เวลา :</v-card-text>
-          </v-row>
+          วัน/เวลา : {{ inDateTime }}
         </v-card-text>
       </v-card>
     </v-dialog>
 
     <!-- Checkout -->
-    <v-dialog v-model="checkOut" hide-overlay max-width="320">
-      <v-card height="200" width="320" class="primary lighten-1 pa-6">
+    <v-dialog v-model="checkOut" hide-overlay max-width="350">
+      <v-card height="150" class="primary lighten-1 pa-6">
         <v-card-title class="d-flex justify-center white--text">
           <span>ลงชื่อออกสำเร็จ!</span>
         </v-card-title>
         <v-card-text class="d-flex justify-center mt-2 white--text">
-          <v-row>
-            <v-card-text> วันที่ : </v-card-text>
-            <v-card-text> เวลา :</v-card-text>
-          </v-row>
+          วัน/เวลา : {{ outDateTime }}
         </v-card-text>
       </v-card>
     </v-dialog>
 
-    <!-- Leave Work -->
+    <!-- Leave Work
     <v-dialog v-model="dialog" max-width="650px">
       <v-card class="pa-4">
         <v-card-title class="pb-6"> รายละเอียดการลางาน </v-card-title>
         <v-card-text>
-          <!-- Leave Date -->
+          Leave Date
           <v-row cols="12">
             <v-col md="6">
               <v-menu
@@ -106,7 +100,7 @@
               </v-menu>
             </v-col>
 
-            <!-- Document -->
+            Document
             <v-col cols="6">
               <v-file-input
                 label="เอกสารแนบ"
@@ -118,7 +112,7 @@
             </v-col>
           </v-row>
 
-          <!-- Text -->
+          Text
           <v-row mt-n5>
             <v-col cols="12">
               <v-textarea
@@ -134,7 +128,7 @@
           <v-btn class="primary darken-2">ยืนยัน</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
   </div>
 </template>
 <script>
@@ -151,6 +145,8 @@ export default {
       checkIn: false,
       checkOut: false,
       dialog: false,
+      inDateTime: new Date().toLocaleString(),
+      outDateTime: new Date().toLocaleString(),
       leaveDatePicker: false,
       leaveDate: null,
     }

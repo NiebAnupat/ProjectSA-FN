@@ -55,7 +55,7 @@
 
     <!-- Table -->
     <div>
-      <v-card class="rounded-xl mt-8 pa-3">
+      <v-card class="rounded-xl mt-6 pa-3">
         <div v-if="allEmp">
           <allEmp />
         </div>

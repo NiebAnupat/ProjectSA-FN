@@ -116,7 +116,7 @@
               </v-col>
               <v-col cols="6">
                 <v-menu
-                  v-model="timPicker"
+                  v-model="timePicker"
                   :close-on-content-click="false"
                   :nudge-right="40"
                   transition="scale-transition"
@@ -161,6 +161,10 @@
               </v-col>
             </v-row>
           </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text>ตกลง</v-btn>
+          </v-card-actions>
         </v-card>
       </v-dialog>
     </div>
@@ -181,18 +185,32 @@ export default {
   data() {
     return {
       dialog: false,
+      search: '',
       checkTable: false,
       addTable: false,
-      search: '',
-      creatby: '',
-      name: '',
+      createby: '',
       subject: '',
       location: '',
+      name: '',
+      detail: '',
       date: null,
       time: null,
-      detail: '',
       datePicker: false,
       timePicker: false,
+
+      // dialog: false,
+      // checkTable: false,
+      // addTable: false,
+      // search: '',
+      // creatby: '',
+      // name: '',
+      // subject: '',
+      // location: '',
+      // date: null,
+      // time: null,
+      // detail: '',
+      // datePicker: false,
+      // timePicker: false,
     }
   },
 }

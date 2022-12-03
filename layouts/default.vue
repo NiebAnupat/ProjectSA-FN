@@ -87,7 +87,7 @@ export default {
     return {
       drawer: true,
       user: {
-        name: 'นาย ธนพล สุขสวัสดิ์',
+        name: 'นางสาว สุชานาถ คุ้มบุ่งคล้า',
         avatar: 'https://ui-avatars.com/api/background=random',
       },
       admin: {
@@ -102,9 +102,9 @@ export default {
           action: () => this.$router.push('/Employee/Checkin'),
         },
         {
-          title: 'นัดหมาย',
+          title: 'เอกสารลางาน',
           icon: 'mdi-calendar',
-          action: () => this.$router.push('/Employee/Appointment'),
+          action: () => this.$router.push('/Employee/LeaveEmp'),
         },
       ],
 
@@ -131,6 +131,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('Auth/setAuthFalse')
+      this.$store.dispatch('Auth/setAdminFalse')
       this.$router.push('/')
     },
   },
