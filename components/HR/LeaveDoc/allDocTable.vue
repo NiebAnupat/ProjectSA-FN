@@ -32,6 +32,28 @@
                 </template>
                 <span>รายละเอียด</span>
               </v-tooltip>
+
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn icon v-bind="attrs" v-on="on">
+                    <v-icon color="green darken-2" class="mx-1">
+                      mdi-check
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>อนุมัติ</span>
+              </v-tooltip>
+
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn icon v-bind="attrs" v-on="on">
+                    <v-icon color="red darken-2" class="mx-1">
+                      mdi-close</v-icon
+                    >
+                  </v-btn>
+                </template>
+                <span>ปฏิเสธ</span>
+              </v-tooltip>
             </td>
           </tr>
         </tbody>
@@ -44,10 +66,10 @@
         v-model="dialog"
         scrollable
         :overlay="false"
-        max-width="500px"
+        max-width="700"
         transition="dialog-transition"
       >
-        <v-card height="450" width="1000">
+        <v-card height="550">
           <v-card-title> รายละเอียดการลางาน </v-card-title>
           <v-card-text>
             <!-- Leave Date -->
@@ -121,7 +143,7 @@
               <!-- Document -->
               <v-col cols="4">
                 <v-file-input
-                  v-model="file"
+                  v-model="editImg"
                   label="เอกสารแนบ"
                   prepend-icon="mdi-paperclip"
                   accept="image/*"
@@ -131,12 +153,21 @@
               </v-col>
             </v-row>
 
-            <v-row class="d-flex justify-center pt-6">
-              <img :src="file" />
+            <v-row class="d-flex justify-center">
+              <v-sheet>
+                <div v-if="editImgIsExist()">
+                  <img
+                    :src="editImg != null ? getImgURL(editImg) : ''"
+                    height="400"
+                    width="300"
+                  />
+                </div>
+                <div v-else>ไม่พบเอกสาร</div>
+              </v-sheet>
             </v-row>
 
             <!-- Text -->
-            <v-row mt-10>
+            <v-row class="mt-10">
               <v-col cols="12">
                 <v-textarea
                   v-model="doc"
@@ -158,7 +189,7 @@ export default {
   data() {
     return {
       dialog: false,
-      file: null,
+      editImg: null,
       Emp: [
         {
           id: '1',
@@ -168,6 +199,16 @@ export default {
         },
       ],
     }
+  },
+
+  methods: {
+    getImgURL(img) {
+      return URL.createObjectURL(img)
+    },
+
+    editImgIsExist() {
+      return this.editImg != null
+    },
   },
 }
 </script>
