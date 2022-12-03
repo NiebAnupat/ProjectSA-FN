@@ -1,7 +1,21 @@
 <template>
   <div>
-    <div>
+    <div class="d-flex">
       <h1 class="mt-2">เอกสารลางาน</h1>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <!-- Search -->
+      <v-text-field
+        v-model="search"
+        prepend-icon="mdi-magnify"
+        label="รหัสพนักงาน"
+        single-line
+        hide-details
+        class="mb-4"
+      ></v-text-field>
+      <v-btn class="my-auto ml-3" text v-on:click="search">ค้นหา</v-btn>
     </div>
     <v-divider class="mt-3"></v-divider>
 

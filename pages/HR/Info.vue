@@ -66,12 +66,6 @@
               <div class="d-flex justify-center pt-6">
                 <img :src="editImg" />
               </div>
-
-              <v-row>
-                <v-col cols="12">
-                  <img height="300" src="" />
-                </v-col>
-              </v-row>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
