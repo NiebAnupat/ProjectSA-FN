@@ -41,16 +41,17 @@
         <v-col cols="1"></v-col>
         <!-- Picture -->
         <v-col cols="3">
-          <v-card class="text-center">
+          <v-card class="text-center pt-6">
             <v-img
               v-model="Img"
-              class="mt-6 rounded-xl"
-              src=""
+              class="mx-6 rounded-lg"
+              :src="Img"
               height="250"
               width="220"
               nuxt
               @click="dialog = true"
-            ></v-img>
+            >
+            </v-img>
 
             <v-card-text class="text-h6">รหัส : 6401861</v-card-text>
           </v-card>
@@ -127,7 +128,10 @@
             <v-card-text class="px-8 title">
               <v-row>
                 <v-col cols="6">
-                  <v-text-field v-model="empDetail.Fname"></v-text-field>
+                  <v-text-field
+                    v-model="empDetail.Fname"
+                    label="ชื่อ"
+                  ></v-text-field>
                 </v-col>
                 <v-col cols="6"
                   ><v-text-field
@@ -213,10 +217,14 @@
 
               <v-row>
                 <v-col cols="6">
-                  <v-text-field
-                    v-model="empDetail.isActivate"
-                    label="สถานะ"
-                  ></v-text-field>
+                  <v-container fluid>
+                    <v-select
+                      v-model="empDetail.isActivate"
+                      :items="status"
+                      label="สถานะ"
+                      dense
+                    ></v-select>
+                  </v-container>
                 </v-col>
                 <v-col cols="6"
                   ><v-text-field
@@ -249,7 +257,7 @@ export default {
       editImg: null,
       search: '',
       empID: '6401861',
-      Img: null,
+      Img: require('~/assets/237603.jpg'),
       typeDept: [
         'ฝ่ายจัดซื้อ',
         'ฝ่ายบุคคล',
@@ -258,18 +266,20 @@ export default {
         'ฝ่ายประมูลงาน',
         'แม่บ้าน',
       ],
+
       typePost: ['พนักงานทั่วไป', 'หัวหน้า', 'ผู้บริหาร'],
+      status: ['ใช้งาน', 'ไม่ใช้งาน'],
       empDetail: {
         Fname: 'นางสาว สุชานาถ',
         Lname: 'คุ้มบุ่งคล้า',
         gender: 'ไม่บอก',
         birthday: '5/4/1999',
         tel: '0943986347',
-        department: 'วิทยาการคอมพิวเตอร์',
-        position: 'โปรแกรมเมอร์',
+        department: 'ฝ่ายบุคคล',
+        position: 'พนักงานทั่วไป',
         address:
           '123/456 ถนน สุขุมวิท แขวง บางกอกใหญ่ เขต บางกอกใหญ่ กรุงเทพมหานคร 10700',
-        salary: '10,000,000',
+        salary: 1000000,
         startAt: '10/10/2020',
         isActivate: 'ใช้งาน',
         changeAt: '10/10/2020',

@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
-      <p class="mt-7">วันอังคาร ที่ 13 มกราคม 2565</p>
+      <p class="mt-7">วัน : {{ date }}</p>
     </div>
     <v-divider class="mt-3"></v-divider>
 
@@ -85,6 +85,7 @@ export default {
 
   data() {
     return {
+      date: new Date().toISOString().substr(0, 10),
       allEmp: false,
       checkinEmp: false,
       leaveEmp: false,

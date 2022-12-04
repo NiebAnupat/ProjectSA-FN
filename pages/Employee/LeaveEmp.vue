@@ -10,7 +10,7 @@
         <v-row>
           <v-spacer></v-spacer>
           <p class="pa-4 grey--text">
-            *การลาประเภทลาป่วยที่ลามากกว่า 3 วัน กรุณาแนบใบรับรองแพทย์มาด้วย
+            *การลาประเภทลาป่วยที่ลามากกว่า 3 วัน กรุณาแนบใบรับรองแพทย์
           </p>
         </v-row>
 
@@ -75,20 +75,17 @@
           </v-row>
 
           <v-row>
-            <v-col cols="4">
+            <v-col cols="6">
               <v-container fluid>
                 <v-select :items="type" label="ประเภท" dense></v-select>
               </v-container>
             </v-col>
-            <v-col cols="4">
-              <v-text-field v-model="other" label="อื่นๆ"></v-text-field>
-            </v-col>
             <!-- Document -->
-            <v-col cols="4">
+            <v-col cols="6">
               <v-file-input
                 label="เอกสารแนบ"
+                accept="image/png, image/jpeg"
                 prepend-icon="mdi-paperclip"
-                accept="image/*"
                 show-size
                 color="primary"
               ></v-file-input>
@@ -109,9 +106,35 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text class="primary darken-2">ยืนยัน</v-btn>
+          <v-btn
+            text
+            class="primary darken-2"
+            :disabled="!fromDate || !toDate || !type || !doc"
+            @click=";(success = true), (fail = false)"
+            >ยืนยัน</v-btn
+          >
         </v-card-actions>
       </v-card>
+    </div>
+
+    <!-- snackbar -->
+    <div>
+      <v-snackbar v-model="success" :timeout="2300">
+        ส่งเอกสารลางานสำเร็จ
+        <template v-slot:action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="success = false"
+            >ปิด</v-btn
+          >
+        </template>
+      </v-snackbar>
+      <v-snackbar v-model="fail" :timeout="2300">
+        จำนวนวันลาไม่เพียงพอ
+        <template v-slot:action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="fail = false"
+            >ปิด</v-btn
+          >
+        </template>
+      </v-snackbar>
     </div>
   </div>
 </template>
@@ -125,19 +148,13 @@ export default {
 
   data() {
     return {
+      success: false,
+      fail: false,
       fromDate: null,
       toDate: null,
       fromDatePicker: false,
       toDatePicker: false,
-      type: [
-        'ลาป่วย',
-        'ลากิจ',
-        'ลาพักร้อน',
-        'ลาคลอดบุตร',
-        'ลาอุปสมบท',
-        'อื่น ๆ',
-      ],
-      other: null,
+      type: ['ลาป่วย', 'ลากิจ', 'ลาพักร้อน', 'ลาคลอดบุตร', 'ลาอุปสมบท'],
       doc: null,
     }
   },

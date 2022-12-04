@@ -16,7 +16,7 @@
             <td class="text-center">{{ item.id }}</td>
             <td>{{ item.name }}</td>
             <td class="text-center">{{ item.department }}</td>
-            <td class="text-center">{{ item.totaldate }}</td>
+            <td class="text-center">{{ dateAmount() }}</td>
             <td class="text-center">
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
@@ -59,6 +59,128 @@
         </tbody>
       </template>
     </v-simple-table>
+
+    <!-- dialog -->
+    <div>
+      <v-dialog
+        v-model="dialog"
+        scrollable
+        :overlay="false"
+        max-width="700"
+        transition="dialog-transition"
+      >
+        <v-card height="550">
+          <v-card-title> รายละเอียดการลางาน </v-card-title>
+          <v-card-text>
+            <!-- Leave Date -->
+            <v-row cols="12">
+              <v-col md="6">
+                <v-menu
+                  v-model="fromDatePicker"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="fromDate"
+                      label="วันที่ต้องการลา"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="fromDate"
+                    @input="fromDatePicker = false"
+                    scrollable
+                    color="primary"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+
+              <v-col cols="6">
+                <v-menu
+                  v-model="toDatePicker"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="toDate"
+                      label="ถึงวันที่"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="toDate"
+                    @input="toDatePicker = false"
+                    scrollable
+                    color="primary"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-col cols="4">
+                <v-container fluid>
+                  <v-select :items="type" label="ประเภท" dense></v-select>
+                </v-container>
+              </v-col>
+              <v-col cols="4">
+                <v-text-field v-model="other" label="อื่นๆ"></v-text-field>
+              </v-col>
+              <!-- Document -->
+              <v-col cols="4">
+                <v-file-input
+                  v-model="editImg"
+                  label="เอกสารแนบ"
+                  prepend-icon="mdi-paperclip"
+                  accept="image/*"
+                  show-size
+                  color="primary"
+                ></v-file-input>
+              </v-col>
+            </v-row>
+
+            <v-row class="d-flex justify-center">
+              <v-sheet>
+                <div v-if="editImgIsExist()">
+                  <img
+                    :src="editImg != null ? getImgURL(editImg) : ''"
+                    height="400"
+                    width="300"
+                  />
+                </div>
+                <div v-else>ไม่พบเอกสาร</div>
+              </v-sheet>
+            </v-row>
+
+            <!-- Text -->
+            <v-row class="mt-10">
+              <v-col cols="12">
+                <v-textarea
+                  v-model="doc"
+                  label="หมายเหตุ"
+                  placeholder="ระบุเหตุผลการลางาน"
+                  outlined
+                ></v-textarea>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
@@ -67,6 +189,12 @@ export default {
   data() {
     return {
       dialog: false,
+      fromDate: null,
+      toDate: null,
+      fromDatePicker: false,
+      toDatePicker: false,
+      other: '',
+      doc: '',
       editImg: null,
       type: ['ลาป่วย', 'ลากิจ', 'ลาพักร้อน', 'ลาคลอด', 'ลาอื่นๆ'],
       Emp: [
@@ -87,6 +215,17 @@ export default {
 
     editImgIsExist() {
       return this.editImg != null
+    },
+
+    //get amount of days
+    dateAmount() {
+      const fromDate = new Date(this.fromDate)
+      const toDate = new Date(this.toDate)
+      const diffTime = Math.abs(toDate - fromDate)
+      let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
+
+      if (diffDays === 0) daffDays = 1
+      return diffDays
     },
   },
 }
