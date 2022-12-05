@@ -19,9 +19,9 @@
                 <!-- Input Username -->
                 <v-text-field
                   prepend-inner-icon="mdi-email"
-                  v-model="email"
+                  v-model="id"
                   label="อีเมล"
-                  :rules="emailRules"
+                  :rules="idRules"
                   required
                   @keydown.enter="login"
                   v-on:click="login"
@@ -32,11 +32,10 @@
                   prepend-inner-icon="mdi-lock"
                   v-model="password"
                   :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                  :rules="[rules.required, rules.min]"
+                  :rules="passRules"
                   :type="show1 ? 'text' : 'password'"
                   name="input-10-1"
                   label="รหัสผ่าน"
-                  hint="At least 8 characters"
                   @click:append="show1 = !show1"
                   @keydown.enter="login"
                 ></v-text-field>
@@ -73,25 +72,24 @@ export default {
 
   data() {
     return {
-      email: '',
+      id: '',
       password: '',
       show1: false,
-      rules: {
-        required: (value) => !!value || 'Required.',
-        min: (v) => v.length >= 8 || 'Min 8 characters',
-        emailMatch: () => `The email and password you entered don't match`,
-      },
-      emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) =>
-          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-          'E-mail must be valid',
+      idRules: [
+        (v) => !!v || 'กรุณากรอกรหัสพนักงาน',
+        (V) => V.length === 7 || 'รหัสพนักงานต้องมี 7 ตัวอักษร',
+        (v) => !isNaN(v) || 'กรุณากรอกตัวเลขเท่านั้น',
+      ],
+      passRules: [
+        (v) => !!v || 'กรุณากรอกรหัสผ่าน',
+        (v) => v.length >= 8 || 'รหัสผ่านต้องมี 8 ตัวอักษรขึ้นไป',
+        (v) => !isNaN(v) || 'กรุณากรอกตัวเลขเท่านั้น',
       ],
     }
   },
   methods: {
     async login() {
-      if (this.email != '' && this.password != '') {
+      if (this.id != '' && this.password != '') {
         await this.$store.dispatch('Auth/setAuthTrue')
         await this.$store.dispatch('Auth/setAdminTrue')
         this.$router.push('/HR/Dashbord')

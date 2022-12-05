@@ -41,19 +41,34 @@
         <v-col cols="1"></v-col>
         <!-- Picture -->
         <v-col cols="3">
-          <v-card class="text-center pt-6">
-            <v-img
-              v-model="Img"
-              class="mx-6 rounded-lg"
-              :src="Img"
-              height="250"
-              width="220"
-              nuxt
-              @click="dialog = true"
-            >
-            </v-img>
+          <v-card class="pa-4">
+            <div class="d-flex justify-center">
+              <div v-if="Img != null">
+                <v-img
+                  v-model="Img"
+                  class="rounded-lg"
+                  :src="Img"
+                  width="220"
+                  nuxt
+                  @click="dialog = true"
+                >
+                </v-img>
+              </div>
+              <div v-else>
+                <v-img
+                  class="rounded-lg"
+                  :src="require('~/assets/employee.png')"
+                  width="220"
+                  nuxt
+                  @click="dialog = true"
+                >
+                </v-img>
+              </div>
+            </div>
 
-            <v-card-text class="text-h6">รหัส : 6401861</v-card-text>
+            <v-card-text class="d-flex justify-center mt-4 text-h6"
+              >รหัส : 6401861</v-card-text
+            >
           </v-card>
 
           <v-row class="mt-4 d-flex justify-center">
@@ -67,6 +82,7 @@
                     v-on="on"
                     class="grey lighten-3 mx-3"
                     nuxt
+                    @click="isSuccess = true"
                     ><v-icon>mdi-account-edit</v-icon></v-btn
                   >
                 </template>
@@ -96,8 +112,8 @@
 
         <!-- Dialog -->
         <!-- Edit -->
-        <v-dialog v-model="dialog" max-width="500" scrollable>
-          <v-card width="500" height="400" class="rounded-lg pa-4">
+        <v-dialog v-model="dialog" max-width="550" scrollable>
+          <v-card class="rounded-lg pa-4">
             <v-card-title> แก้ไขรูปภาพ </v-card-title>
             <v-card-text>
               <v-file-input
@@ -110,8 +126,7 @@
               <div class="d-flex justify-center pt-6">
                 <img
                   :src="editImg != null ? getImgURL(editImg) : ''"
-                  height="450"
-                  width="300"
+                  width="250"
                 />
               </div>
             </v-card-text>
@@ -241,6 +256,22 @@
         </v-col>
       </v-row>
     </div>
+
+    <!-- snackbar -->
+    <div>
+      <v-snackbar v-model="isSuccess" color="green" :timeout="2300">
+        บันทึกข้อมูลสำเร็จ
+        <template v-slot:action="{ attrs }">
+          <v-btn color="white" text v-bind="attrs">ปิด </v-btn>
+        </template>
+      </v-snackbar>
+      <v-snackbar v-model="isFaild" color="red" :timeout="2300">
+        บันทึกข้อมูลล้มเหลว
+        <template v-slot:action="{ attrs }">
+          <v-btn color="white" text v-bind="attrs">ปิด </v-btn>
+        </template>
+      </v-snackbar>
+    </div>
   </div>
 </template>
 picture
@@ -256,6 +287,8 @@ export default {
   data() {
     return {
       dialog: false,
+      isSuccess: false,
+      isFaild: false,
       editImg: null,
       search: '',
       empID: '6401861',
@@ -269,7 +302,7 @@ export default {
         'แม่บ้าน',
       ],
 
-      typePost: ['พนักงานทั่วไป', 'หัวหน้า', 'ผู้บริหาร'],
+      typePost: ['พนักงานทั่วไป', 'ผู้จัดการ', 'ผู้บริหาร'],
       status: ['ใช้งาน', 'ไม่ใช้งาน'],
       empDetail: {
         Fname: 'นางสาว สุชานาถ',

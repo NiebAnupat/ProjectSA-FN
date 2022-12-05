@@ -74,6 +74,7 @@
 import allEmp from '~/components/HR/allEmp.vue'
 import checkinEmp from '~/components/HR/checkinEmp.vue'
 import leaveEmp from '~/components/HR/leaveEmp.vue'
+var moment = require('moment')
 export default {
   name: 'Dashbord',
   async asyncData({ store }) {
@@ -85,7 +86,7 @@ export default {
 
   data() {
     return {
-      date: new Date().toISOString().substr(0, 10),
+      date: moment().format('DD-MM-YYYY'),
       allEmp: false,
       checkinEmp: false,
       leaveEmp: false,

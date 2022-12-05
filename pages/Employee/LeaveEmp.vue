@@ -77,7 +77,12 @@
           <v-row>
             <v-col cols="6">
               <v-container fluid>
-                <v-select :items="type" label="ประเภท" dense v-model="selectedType"></v-select>
+                <v-select
+                  :items="type"
+                  label="ประเภท"
+                  dense
+                  v-model="selectedType"
+                ></v-select>
               </v-container>
             </v-col>
             <!-- Document -->
@@ -112,7 +117,7 @@
             color="primary darken-2"
             :disabled="!fromDate || !toDate || !type || !detail"
             @click="submit"
-          >ยืนยัน
+            >ยืนยัน
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -120,22 +125,16 @@
 
     <!-- snackbar -->
     <div>
-      <v-snackbar v-model="isSuccess" :timeout="2300">
+      <v-snackbar v-model="isSuccess" color="green" :timeout="2300">
         ส่งเอกสารลางานสำเร็จ
         <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs"
-          >ปิด
-          </v-btn
-          >
+          <v-btn color="red" text v-bind="attrs">ปิด </v-btn>
         </template>
       </v-snackbar>
-      <v-snackbar v-model="isFaild" :timeout="2300">
+      <v-snackbar v-model="isFaild" color="red" :timeout="2300">
         จำนวนวันลาไม่เพียงพอ
         <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs"
-          >ปิด
-          </v-btn
-          >
+          <v-btn color="red" text v-bind="attrs">ปิด </v-btn>
         </template>
       </v-snackbar>
     </div>
@@ -143,53 +142,51 @@
 </template>
 <script>
 export default {
-  name : 'LeaveEmp',
+  name: 'LeaveEmp',
 
-  async asyncData( { store } ) {
-    store.dispatch( 'Auth/setAuthTrue' )
+  async asyncData({ store }) {
+    store.dispatch('Auth/setAuthTrue')
   },
 
   data() {
     return {
-      isSuccess : '',
-      isFaild : '',
-      fromDate : null,
-      toDate : null,
-      fromDatePicker : false,
-      toDatePicker : false,
-      type : ['ลาป่วย', 'ลากิจ', 'ลาพักร้อน', 'ลาคลอดบุตร', 'ลาอุปสมบท'],
-      selectedType : '',
-      detail : null,
-      img : null,
+      isSuccess: '',
+      isFaild: '',
+      fromDate: null,
+      toDate: null,
+      fromDatePicker: false,
+      toDatePicker: false,
+      type: ['ลาป่วย', 'ลากิจ', 'ลาพักร้อน', 'ลาคลอดบุตร', 'ลาอุปสมบท'],
+      selectedType: '',
+      detail: null,
+      img: null,
     }
   },
 
-  methods : {
+  methods: {
     async submit() {
-
       const { EM_ID } = this.$store.getters['Auth/user']
       const formData = new FormData()
-      formData.append( 'EM_ID', EM_ID )
-      formData.append( 'L_TYPE_NAME', this.selectedType )
-      formData.append( 'L_DATE_START', this.fromDate )
-      formData.append( 'L_DATE_END', this.toDate )
-      formData.append( 'L_NOTE', this.detail )
-      formData.append( 'image', this.img )
+      formData.append('EM_ID', EM_ID)
+      formData.append('L_TYPE_NAME', this.selectedType)
+      formData.append('L_DATE_START', this.fromDate)
+      formData.append('L_DATE_END', this.toDate)
+      formData.append('L_NOTE', this.detail)
+      formData.append('image', this.img)
 
-      this.$axios.$post( '/leaveWork/', formData ).then( res => {
-        if ( res ) {
+      this.$axios.$post('/leaveWork/', formData).then((res) => {
+        if (res) {
           this.isSuccess = true
-          setTimeout( () => {
+          setTimeout(() => {
             this.isSuccess = false
-          }, 2000 )
+          }, 2000)
         } else {
           this.isFaild = true
-          setTimeout( () => {
+          setTimeout(() => {
             this.isFaild = false
-          }, 2000 )
+          }, 2000)
         }
-      } )
-
+      })
     },
   },
 }

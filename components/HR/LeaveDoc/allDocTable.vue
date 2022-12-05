@@ -69,7 +69,7 @@
         max-width="700"
         transition="dialog-transition"
       >
-        <v-card height="550">
+        <v-card max-height="550">
           <v-card-title> รายละเอียดการลางาน </v-card-title>
           <v-card-text>
             <!-- Leave Date -->
@@ -158,8 +158,7 @@
                 <div v-if="editImgIsExist()">
                   <img
                     :src="editImg != null ? getImgURL(editImg) : ''"
-                    height="400"
-                    width="300"
+                    width="450"
                   />
                 </div>
                 <div v-else>ไม่พบเอกสาร</div>
@@ -189,8 +188,8 @@ export default {
   data() {
     return {
       dialog: false,
-      fromDate: null,
-      toDate: null,
+      fromDate: '12/12/2020',
+      toDate: '12/18/2020',
       fromDatePicker: false,
       toDatePicker: false,
       other: '',
@@ -202,7 +201,6 @@ export default {
           id: '1',
           name: 'นาย ธนพล พรหมพิทักษ์',
           department: 'IT',
-          totaldate: '5',
         },
       ],
     }
@@ -224,7 +222,7 @@ export default {
       const diffTime = Math.abs(toDate - fromDate)
       let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
 
-      if (diffDays === 0) daffDays = 1
+      if (diffDays === 0) diffDays = 1
       return diffDays
     },
   },

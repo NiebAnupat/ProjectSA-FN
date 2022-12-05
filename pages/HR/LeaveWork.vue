@@ -24,7 +24,7 @@
         <v-col cols="5">
           <p class="mx-12">อนุมัติแล้ว</p>
           <v-card class="rounded-xl" height="320">
-            <rejectTable class="pa-2" />
+            <approveTable class="pa-2" />
           </v-card>
           <p class="mt-6 mx-12">ปฏิเสธแล้ว</p>
           <v-card class="rounded-xl mt-3" height="320">
@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import rejectTable from '~/components/HR/LeaveDoc/rejectTable.vue'
+import approveTable from '~/components/HR/LeaveDoc/approveTable.vue'
 import denyTable from '~/components/HR/LeaveDoc/denyTable.vue'
 import allTable from '~/components/HR/LeaveDoc/allDocTable.vue'
 export default {
-  components: { denyTable, rejectTable, allTable },
+  components: { denyTable, approveTable, allTable },
   name: 'LeaveWork',
   async asyncData({ store }) {
     store.dispatch('Auth/setAuthTrue')
