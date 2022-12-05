@@ -14,7 +14,7 @@
     <div>
       <v-row class="pt-10">
         <v-col cols="6">
-          <v-card nuxt @click="checkIn = true">
+          <v-card nuxt @click="checkInEmp">
             <v-card-title class="d-flex justify-center"
               >ลงชื่อเข้า</v-card-title
             >
@@ -22,7 +22,7 @@
         </v-col>
 
         <v-col cols="6">
-          <v-card nuxt @click="checkOut = true">
+          <v-card nuxt @click="checkOutEmp">
             <v-card-title class="d-flex justify-center">ลงชื่อออก</v-card-title>
           </v-card>
         </v-col>
@@ -145,23 +145,35 @@ export default {
       checkIn: false,
       checkOut: false,
       dialog: false,
-      inDateTime: new Date().toLocaleString(),
-      outDateTime: new Date().toLocaleString(),
+      inDateTime: '',
+      outDateTime: '',
       leaveDatePicker: false,
       leaveDate: null,
     }
   },
 
-  watch: {
-    checkIn(val) {
-      if (!val) return
-      setTimeout(() => (this.checkIn = false), 2000)
+  methods: {
+    async checkInEmp() {
+      this.inDateTime = new Date().toLocaleString()
+      this.checkIn = true
+      const {EM_ID} = this.$store.getters['Auth/user']
+      await this.$axios.$post( '/workTime/checkIn', {
+        EM_ID : EM_ID,
+      } )
+
+      setTimeout( () => (this.checkIn = false), 2000 )
     },
-    checkOut(val) {
-      if (!val) return
+    async checkOutEmp() {
+      this.outDateTime = new Date().toLocaleString()
+      this.checkOut = true
+      const {EM_ID} = this.$store.getters['Auth/user']
+      await this.$axios.$post('/workTime/checkOut',{
+        EM_ID : EM_ID,
+      })
       setTimeout(() => (this.checkOut = false), 2000)
     },
   },
+
 }
 </script>
 <style lang="scss"></style>

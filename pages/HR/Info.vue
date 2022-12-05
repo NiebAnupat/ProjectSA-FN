@@ -31,7 +31,7 @@
         hide-details
         class="mb-4"
       ></v-text-field>
-      <v-btn class="my-auto ml-3" text v-on:click="search">ค้นหา</v-btn>
+      <v-btn class="my-auto ml-3" text>ค้นหา</v-btn>
     </div>
     <v-divider class="mt-3"></v-divider>
 
@@ -160,6 +160,7 @@
                   ><v-text-field
                     v-model="empDetail.tel"
                     label="เบอร์โทร"
+                    :rules="telRules"
                   ></v-text-field
                 ></v-col>
               </v-row>
@@ -204,6 +205,7 @@
                   <v-text-field
                     v-model="empDetail.salary"
                     label="เงินเดือน"
+                    type="number"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6"
@@ -284,6 +286,12 @@ export default {
         isActivate: 'ใช้งาน',
         changeAt: '10/10/2020',
       },
+
+      telRules: [
+        (v) => !!v || 'กรุณากรอกเบอร์โทร',
+        (v) => v.length === 10 || 'กรุณากรอกเบอร์โทรให้ครบ 10 หลัก',
+        (v) => !isNaN(v) || 'กรุณากรอกเบอร์โทรเป็นตัวเลขเท่านั้น',
+      ],
     }
   },
 

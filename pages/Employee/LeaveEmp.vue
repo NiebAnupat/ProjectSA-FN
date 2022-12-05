@@ -77,7 +77,7 @@
           <v-row>
             <v-col cols="6">
               <v-container fluid>
-                <v-select :items="type" label="ประเภท" dense></v-select>
+                <v-select :items="type" label="ประเภท" dense v-model="selectedType"></v-select>
               </v-container>
             </v-col>
             <!-- Document -->
@@ -88,6 +88,7 @@
                 prepend-icon="mdi-paperclip"
                 show-size
                 color="primary"
+                v-model="img"
               ></v-file-input>
             </v-col>
           </v-row>
@@ -96,7 +97,7 @@
           <v-row mt-n5>
             <v-col cols="12">
               <v-textarea
-                v-model="doc"
+                v-model="detail"
                 label="หมายเหตุ"
                 placeholder="ระบุเหตุผลการลางาน"
                 outlined
@@ -108,30 +109,32 @@
           <v-spacer></v-spacer>
           <v-btn
             text
-            class="primary darken-2"
-            :disabled="!fromDate || !toDate || !type || !doc"
-            @click=";(success = true), (fail = false)"
-            >ยืนยัน</v-btn
-          >
+            color="primary darken-2"
+            :disabled="!fromDate || !toDate || !type || !detail"
+            @click="submit"
+          >ยืนยัน
+          </v-btn>
         </v-card-actions>
       </v-card>
     </div>
 
     <!-- snackbar -->
     <div>
-      <v-snackbar v-model="success" :timeout="2300">
+      <v-snackbar v-model="isSuccess" :timeout="2300">
         ส่งเอกสารลางานสำเร็จ
         <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs" @click="success = false"
-            >ปิด</v-btn
+          <v-btn color="red" text v-bind="attrs"
+          >ปิด
+          </v-btn
           >
         </template>
       </v-snackbar>
-      <v-snackbar v-model="fail" :timeout="2300">
+      <v-snackbar v-model="isFaild" :timeout="2300">
         จำนวนวันลาไม่เพียงพอ
         <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs" @click="fail = false"
-            >ปิด</v-btn
+          <v-btn color="red" text v-bind="attrs"
+          >ปิด
+          </v-btn
           >
         </template>
       </v-snackbar>
@@ -140,23 +143,54 @@
 </template>
 <script>
 export default {
-  name: 'LeaveEmp',
+  name : 'LeaveEmp',
 
-  async asyncData({ store }) {
-    store.dispatch('Auth/setAuthTrue')
+  async asyncData( { store } ) {
+    store.dispatch( 'Auth/setAuthTrue' )
   },
 
   data() {
     return {
-      success: false,
-      fail: false,
-      fromDate: null,
-      toDate: null,
-      fromDatePicker: false,
-      toDatePicker: false,
-      type: ['ลาป่วย', 'ลากิจ', 'ลาพักร้อน', 'ลาคลอดบุตร', 'ลาอุปสมบท'],
-      doc: null,
+      isSuccess : '',
+      isFaild : '',
+      fromDate : null,
+      toDate : null,
+      fromDatePicker : false,
+      toDatePicker : false,
+      type : ['ลาป่วย', 'ลากิจ', 'ลาพักร้อน', 'ลาคลอดบุตร', 'ลาอุปสมบท'],
+      selectedType : '',
+      detail : null,
+      img : null,
     }
+  },
+
+  methods : {
+    async submit() {
+
+      const { EM_ID } = this.$store.getters['Auth/user']
+      const formData = new FormData()
+      formData.append( 'EM_ID', EM_ID )
+      formData.append( 'L_TYPE_NAME', this.selectedType )
+      formData.append( 'L_DATE_START', this.fromDate )
+      formData.append( 'L_DATE_END', this.toDate )
+      formData.append( 'L_NOTE', this.detail )
+      formData.append( 'image', this.img )
+
+      this.$axios.$post( '/leaveWork/', formData ).then( res => {
+        if ( res ) {
+          this.isSuccess = true
+          setTimeout( () => {
+            this.isSuccess = false
+          }, 2000 )
+        } else {
+          this.isFaild = true
+          setTimeout( () => {
+            this.isFaild = false
+          }, 2000 )
+        }
+      } )
+
+    },
   },
 }
 </script>

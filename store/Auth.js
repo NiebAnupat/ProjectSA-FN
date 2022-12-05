@@ -1,11 +1,15 @@
 export const state = () => ({
   isAuth: false,
   isAdmin: false,
+  user : {
+    EM_ID : '6400922',
+  }
 })
 
 export const getters = {
   isAuth: (state) => state.isAuth,
   isAdmin: (state) => state.isAdmin,
+  user: (state) => state.user,
 }
 
 export const mutations = {
