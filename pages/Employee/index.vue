@@ -21,7 +21,7 @@
                   <v-text-field
                     prepend-inner-icon="mdi-email"
                     v-model="id"
-                    label="อีเมล"
+                    label="รหัสพนักงาน"
                     :rules="idRules"
                     required
                     @keydown.enter="login"

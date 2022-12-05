@@ -132,16 +132,13 @@
             </v-row>
 
             <v-row>
-              <v-col cols="4">
+              <v-col cols="6">
                 <v-container fluid>
                   <v-select :items="type" label="ประเภท" dense></v-select>
                 </v-container>
               </v-col>
-              <v-col cols="4">
-                <v-text-field v-model="other" label="อื่นๆ"></v-text-field>
-              </v-col>
               <!-- Document -->
-              <v-col cols="4">
+              <v-col cols="6">
                 <v-file-input
                   v-model="editImg"
                   label="เอกสารแนบ"
