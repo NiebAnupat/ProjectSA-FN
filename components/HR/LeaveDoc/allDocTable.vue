@@ -12,11 +12,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in Emp" :key="item.id">
-            <td class="text-center">{{ item.id }}</td>
-            <td>{{ item.name }}</td>
-            <td class="text-center">{{ item.department }}</td>
-            <td class="text-center">{{ dateAmount() }}</td>
+          <tr v-for="item in leaveDoc" :key="item.L_ID">
+            <td class="text-center">{{ item.EM_ID }}</td>
+            <td>{{ item.employee.EM_FNAME }}&nbsp;&nbsp;{{ item.employee.EM_LNAME }}</td>
+            <td class="text-center">{{ item.employee.department.DP_NAME }}</td>
+            <td class="text-center">{{ dateAmount(item) }}</td>
             <td class="text-center">
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
@@ -25,7 +25,7 @@
                     v-bind="attrs"
                     v-on="on"
                     nuxt
-                    @click="dialog = true"
+                    @click="getDetail(item)"
                   >
                     <v-icon color="grey" class="mx-1"> mdi-book-search </v-icon>
                   </v-btn>
@@ -35,7 +35,7 @@
 
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
+                  <v-btn icon v-bind="attrs" v-on="on" @click="approve(item)">
                     <v-icon color="green darken-2" class="mx-1">
                       mdi-check
                     </v-icon>
@@ -46,7 +46,7 @@
 
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
+                  <v-btn icon v-bind="attrs" v-on="on" @click="reject(item)">
                     <v-icon color="red darken-2" class="mx-1">
                       mdi-close</v-icon
                     >
@@ -60,133 +60,30 @@
       </template>
     </v-simple-table>
 
-    <!-- dialog -->
-    <div>
-      <v-dialog
-        v-model="dialog"
-        scrollable
-        :overlay="false"
-        max-width="700"
-        transition="dialog-transition"
-      >
-        <v-card max-height="550">
-          <v-card-title> รายละเอียดการลางาน </v-card-title>
-          <v-card-text>
-            <!-- Leave Date -->
-            <v-row cols="12">
-              <v-col md="6">
-                <v-menu
-                  v-model="fromDatePicker"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="fromDate"
-                      label="วันที่ต้องการลา"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    v-model="fromDate"
-                    @input="fromDatePicker = false"
-                    scrollable
-                    color="primary"
-                  ></v-date-picker>
-                </v-menu>
-              </v-col>
 
-              <v-col cols="6">
-                <v-menu
-                  v-model="toDatePicker"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="toDate"
-                      label="ถึงวันที่"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker
-                    v-model="toDate"
-                    @input="toDatePicker = false"
-                    scrollable
-                    color="primary"
-                  ></v-date-picker>
-                </v-menu>
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col cols="6">
-                <v-container fluid>
-                  <v-select :items="type" label="ประเภท" dense></v-select>
-                </v-container>
-              </v-col>
-              <!-- Document -->
-              <v-col cols="6">
-                <v-file-input
-                  v-model="editImg"
-                  label="เอกสารแนบ"
-                  prepend-icon="mdi-paperclip"
-                  accept="image/*"
-                  show-size
-                  color="primary"
-                ></v-file-input>
-              </v-col>
-            </v-row>
-
-            <v-row class="d-flex justify-center">
-              <v-sheet>
-                <div v-if="editImgIsExist()">
-                  <img
-                    :src="editImg != null ? getImgURL(editImg) : ''"
-                    width="450"
-                  />
-                </div>
-                <div v-else>ไม่พบเอกสาร</div>
-              </v-sheet>
-            </v-row>
-
-            <!-- Text -->
-            <v-row class="mt-10">
-              <v-col cols="12">
-                <v-textarea
-                  v-model="doc"
-                  label="หมายเหตุ"
-                  placeholder="ระบุเหตุผลการลางาน"
-                  outlined
-                ></v-textarea>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
-    </div>
   </div>
 </template>
 
 <script>
+
 export default {
+  props: {
+    getDetail:{
+      type: Function ,
+    },
+    leaveDoc:{
+      type: Array ,
+    },
+    refreshData:{
+      type: Function ,
+    },
+  },
+
   data() {
     return {
       dialog: false,
       fromDate: '12/12/2020',
-      toDate: '12/18/2020',
+      toDate: '12/12/2020',
       fromDatePicker: false,
       toDatePicker: false,
       other: '',
@@ -204,21 +101,24 @@ export default {
   },
 
   methods: {
-    getImgURL(img) {
-      return URL.createObjectURL(img)
+
+    async approve( item ) {
+      await this.$axios.$put( '/leaveWork/approve/'+item.L_ID )
+      this.refreshData()
+
     },
 
-    editImgIsExist() {
-      return this.editImg != null
+    async reject( item ) {
+      await this.$axios.$put( '/leaveWork/reject/'+item.L_ID )
+      this.refreshData()
     },
 
     //get amount of days
-    dateAmount() {
-      const fromDate = new Date(this.fromDate)
-      const toDate = new Date(this.toDate)
+    dateAmount(item) {
+      const fromDate = new Date(item.L_DATE_START )
+      const toDate = new Date(item.L_DATE_END)
       const diffTime = Math.abs(toDate - fromDate)
       let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1
-
       if (diffDays === 0) diffDays = 1
       return diffDays
     },

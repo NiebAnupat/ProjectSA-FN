@@ -24,7 +24,6 @@
                   :rules="idRules"
                   required
                   @keydown.enter="login"
-                  v-on:click="login"
                 ></v-text-field>
 
                 <!-- Input Password -->
@@ -83,19 +82,34 @@ export default {
       passRules: [
         (v) => !!v || 'กรุณากรอกรหัสผ่าน',
         (v) => v.length >= 8 || 'รหัสผ่านต้องมี 8 ตัวอักษรขึ้นไป',
-        (v) => !isNaN(v) || 'กรุณากรอกตัวเลขเท่านั้น',
       ],
     }
   },
   methods: {
     async login() {
-      if (this.id != '' && this.password != '') {
+
+      const employee = await this.$axios.$post('auth/hrLogin', {
+        EM_ID: this.id,
+        EM_PASSWORD: this.password,
+      })
+
+      if (employee) {
         await this.$store.dispatch('Auth/setAuthTrue')
         await this.$store.dispatch('Auth/setAdminTrue')
+        await this.$store.dispatch('Auth/setUser',{EM_ID : employee.EM_ID})
         this.$router.push('/HR/Dashbord')
       } else {
-        this.$store.dispatch('Auth/setAdminFalse')
+        await this.$store.dispatch( 'Auth/setAuthFalse' )
+        this.$swal( {
+          icon : 'error',
+          title : 'เข้าสู่ระบบไม่สำเร็จ',
+          text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
+        } )
+        setTimeout( () => {
+          this.$router.go()
+        }, 1000 )
       }
+
     },
   },
 }

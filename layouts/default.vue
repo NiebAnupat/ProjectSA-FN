@@ -132,6 +132,7 @@ export default {
     logout() {
       this.$store.dispatch('Auth/setAuthFalse')
       this.$store.dispatch('Auth/setAdminFalse')
+      this.$store.dispatch('Auth/setUser', {EM_ID:''})
       this.$router.push('/')
     },
   },

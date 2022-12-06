@@ -128,13 +128,11 @@
       <v-snackbar v-model="isSuccess" color="green" :timeout="2300">
         ส่งเอกสารลางานสำเร็จ
         <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs">ปิด </v-btn>
         </template>
       </v-snackbar>
       <v-snackbar v-model="isFaild" color="red" :timeout="2300">
         จำนวนวันลาไม่เพียงพอ
         <template v-slot:action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs">ปิด </v-btn>
         </template>
       </v-snackbar>
     </div>

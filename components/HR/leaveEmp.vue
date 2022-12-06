@@ -11,11 +11,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in Emp" :key="item.id">
-            <td class="text-center">{{ item.id }}</td>
-            <td>{{ item.name }}</td>
-            <td class="text-center">{{ item.department }}</td>
-            <td class="text-center">{{ item.position }}</td>
+          <tr v-for="item in todayLeave" :key="item.L_ID">
+            <td class="text-center">{{ item.employee.EM_ID }}</td>
+            <td>{{ item.employee.EM_FNAME }}&nbsp;&nbsp;{{ item.employee.EM_LNAME }}</td>
+            <td class="text-center">{{ item.employee.department.DP_NAME }}</td>
+            <td class="text-center">{{ item.employee.position.P_NAME }}</td>
           </tr>
         </tbody>
       </template>
@@ -25,58 +25,17 @@
 
 <script>
 export default {
+
+  props: {
+    todayLeave: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
   data() {
     return {
-      Emp: [
-        {
-          id: '1',
-          name: 'นาย ธนพล พรหมพิทักษ์',
-          department: 'IT',
-          position: 'Programmer',
-        },
-        {
-          id: '2',
-          name: 'นาย ภัทรพล ฟักแฟง',
-          department: 'SMT',
-          position: 'Programmer',
-        },
-        {
-          id: '3',
-          name: 'นาย จำดี ปีหน้า',
-          department: 'CS',
-          position: 'Programmer',
-        },
-        {
-          id: '4',
-          name: 'นาย นะโม ตัสสะ',
-          department: 'SMT',
-          position: 'Programmer',
-        },
-        {
-          id: '5',
-          name: 'นางสาว สวย ดี',
-          department: 'IT',
-          position: 'Programmer',
-        },
-        {
-          id: '6',
-          name: 'นางสาว ขำ ชอบ',
-          department: 'LG',
-          position: 'Programmer',
-        },
-        {
-          id: '7',
-          name: 'นาย วาสนา สุขสวัสดิ์',
-          department: 'IT',
-          position: 'Programmer',
-        },
-        {
-          id: '8',
-          name: 'นาง แก้ว พิมพ์',
-          department: 'CS',
-          position: 'Programmer',
-        },
-      ],
+
     }
   },
 }

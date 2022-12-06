@@ -2,7 +2,7 @@ export const state = () => ({
   isAuth: false,
   isAdmin: false,
   user : {
-    EM_ID : '6400922',
+    EM_ID : '',
   }
 })
 
@@ -24,6 +24,10 @@ export const mutations = {
   setAdmin(state, payload) {
     state.isAdmin = payload
   },
+
+  setUser(state, payload) {
+    state.user = payload
+  }
 }
 
 export const actions = {
@@ -46,4 +50,8 @@ export const actions = {
   setAdminTrue({ commit }) {
     commit('setAdmin', true)
   },
+
+  setUser({ commit }, payload) {
+    commit('setUser', payload)
+  }
 }

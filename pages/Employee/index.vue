@@ -8,7 +8,7 @@
 
       <!-- Picture -->
       <div class="mt-5 d-flex justify-center">
-        <img height="220" src="~/assets/Logo.jpg" />
+        <img height="220" src="~/assets/Logo.jpg"/>
       </div>
 
       <div>
@@ -25,7 +25,6 @@
                     :rules="idRules"
                     required
                     @keydown.enter="login"
-                    v-on:click="login"
                   ></v-text-field>
 
                   <!-- Input Password -->
@@ -54,7 +53,8 @@
           block
           color="primary darken-2"
           v-on:click="login"
-          >เข้าสู่ระบบ</v-btn
+        >เข้าสู่ระบบ
+        </v-btn
         >
       </div>
     </v-card>
@@ -63,41 +63,57 @@
 
 <script>
 export default {
-  name: 'Index',
-  layout: 'default',
+  name : 'Index',
+  layout : 'default',
 
   mounted() {
-    setTimeout(() => {
-      this.$store.dispatch('Auth/setAuthFalse')
-    }, 250)
+    setTimeout( () => {
+      this.$store.dispatch( 'Auth/setAuthFalse' )
+    }, 250 )
   },
 
   data() {
     return {
-      id: '',
-      password: '',
-      show1: false,
-      idRules: [
-        (v) => !!v || 'กรุณากรอกรหัสพนักงาน',
-        (V) => V.length === 7 || 'รหัสพนักงานต้องมี 7 ตัวอักษร',
-        (v) => !isNaN(v) || 'กรุณากรอกตัวเลขเท่านั้น',
+      id : '',
+      password : '',
+      show1 : false,
+      idRules : [
+        ( v ) => !!v || 'กรุณากรอกรหัสพนักงาน',
+        ( V ) => V.length === 7 || 'รหัสพนักงานต้องมี 7 ตัวอักษร',
+        ( v ) => !isNaN( v ) || 'กรุณากรอกตัวเลขเท่านั้น',
       ],
-      passRules: [
-        (v) => !!v || 'กรุณากรอกรหัสผ่าน',
-        (v) => v.length >= 8 || 'รหัสผ่านต้องมี 8 ตัวอักษรขึ้นไป',
-        (v) => !isNaN(v) || 'กรุณากรอกตัวเลขเท่านั้น',
+      passRules : [
+        ( v ) => !!v || 'กรุณากรอกรหัสผ่าน',
+        ( v ) => v.length >= 8 || 'รหัสผ่านต้องมี 8 ตัวอักษรขึ้นไป',
+        // (v) => !isNaN(v) || 'กรุณากรอกตัวเลขเท่านั้น',
       ],
     }
   },
-  methods: {
+  methods : {
     async login() {
-      if (this.id != '' && this.password != '') {
-        await this.$store.dispatch('Auth/setAuthTrue')
-        await this.$store.dispatch('Auth/setAdminFalse')
-        this.$router.push('/Employee/Checkin')
+
+      const employee = await this.$axios.$post( 'auth/login', {
+        EM_ID : this.id,
+        EM_PASSWORD : this.password,
+      } )
+
+      if ( employee ) {
+        await this.$store.dispatch( 'Auth/setAuthTrue' )
+        await this.$store.dispatch( 'Auth/setUser', { EM_ID : employee.EM_ID } )
+        await this.$router.push( '/employee/Checkin' )
       } else {
-        this.$store.dispatch('Auth/setAuthFalse')
+        await this.$store.dispatch( 'Auth/setAuthFalse' )
+        this.$swal( {
+          icon : 'error',
+          title : 'เข้าสู่ระบบไม่สำเร็จ',
+          text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
+        } )
+        setTimeout( () => {
+          this.$router.go()
+        }, 1000 )
+
       }
+
     },
   },
 }
