@@ -36,12 +36,12 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    'nuxt-sweetalert2'
+    'nuxt-sweetalert2',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:4000',
+    baseURL: 'https://project-er-website.azurewebsites.net/',
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
