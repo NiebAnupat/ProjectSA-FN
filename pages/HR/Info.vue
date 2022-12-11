@@ -33,7 +33,13 @@
         class="mb-4"
         @keydown.enter="getEmployeeDetail"
       ></v-text-field>
-      <v-btn class="my-auto ml-3" :disabled="search.length !== 7" text @click="getEmployeeDetail">ค้นหา</v-btn>
+      <v-btn
+        class="my-auto ml-3"
+        :disabled="search.length !== 7"
+        text
+        @click="getEmployeeDetail"
+        >ค้นหา</v-btn
+      >
     </div>
     <v-divider class="mt-3"></v-divider>
 
@@ -45,7 +51,7 @@
         <v-col cols="3">
           <v-card class="pa-4">
             <div class="d-flex justify-center">
-              <div v-if="editImg != null ">
+              <div v-if="editImg != null">
                 <v-img
                   class="rounded-lg"
                   :src="getImgURL(editImg)"
@@ -81,9 +87,8 @@
             </div>
 
             <v-card-text class="d-flex justify-center mt-4 text-h6"
-            >รหัส : {{ empDetail.EM_ID }}
-            </v-card-text
-            >
+              >รหัส : {{ empDetail.EM_ID }}
+            </v-card-text>
           </v-card>
 
           <v-row class="mt-4 d-flex justify-center">
@@ -101,8 +106,7 @@
                     :disabled="empDetail.EM_ID === '0000000'"
                   >
                     <v-icon>mdi-account-edit</v-icon>
-                  </v-btn
-                  >
+                  </v-btn>
                 </template>
 
                 <span>บันทึกข้อมูล</span>
@@ -122,8 +126,7 @@
                     @click="getPaySlip"
                   >
                     <v-icon>mdi-file-chart</v-icon>
-                  </v-btn
-                  >
+                  </v-btn>
                 </template>
 
                 <span>พิมพ์ใบเสร็จรับเงิน</span>
@@ -154,7 +157,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn class="primary darken-2" @click="dialog = false">ยืนยัน</v-btn>
+              <v-btn class="primary darken-2" @click="dialog = false"
+                >ยืนยัน</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -170,13 +175,11 @@
                     label="ชื่อ"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="6"
-                >
+                <v-col cols="6">
                   <v-text-field
                     v-model="empDetail.Lname"
                     label="นามสกุล"
-                  ></v-text-field
-                  >
+                  ></v-text-field>
                 </v-col>
               </v-row>
 
@@ -188,24 +191,20 @@
                     readonly
                   ></v-text-field>
                 </v-col>
-                <v-col cols="4"
-                >
+                <v-col cols="4">
                   <v-text-field
                     v-model="empDetail.birthday"
                     label="วันเกิด"
                     readonly
-                  ></v-text-field
-                  >
+                  ></v-text-field>
                 </v-col>
-                <v-col cols="4"
-                >
+                <v-col cols="4">
                   <v-text-field
                     v-model="empDetail.tel"
                     label="เบอร์โทร"
                     :rules="telRules"
                     ref="tel"
-                  ></v-text-field
-                  >
+                  ></v-text-field>
                 </v-col>
               </v-row>
 
@@ -252,14 +251,12 @@
                     type="number"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="6"
-                >
+                <v-col cols="6">
                   <v-text-field
                     v-model="empDetail.startAt"
                     label="วันที่เริ่มงาน"
                     readonly
-                  ></v-text-field
-                  >
+                  ></v-text-field>
                 </v-col>
               </v-row>
 
@@ -274,14 +271,12 @@
                     ></v-select>
                   </v-container>
                 </v-col>
-                <v-col cols="6"
-                >
+                <v-col cols="6">
                   <v-text-field
                     v-model="empDetail.changeAt"
                     label="วันที่แก้ไขข้อมูลล่าสุด"
                     readonly
-                  ></v-text-field
-                  >
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -289,31 +284,30 @@
         </v-col>
       </v-row>
     </div>
-
   </div>
 </template>
 
 <script>
-const moment = require( "moment" );
-import PDFMerger from 'pdf-merger-js/browser';
+const moment = require('moment')
+import PDFMerger from 'pdf-merger-js/browser'
 
 export default {
-  name : 'info',
-  async asyncData( { store } ) {
-    store.dispatch( 'Auth/setAuthTrue' )
-    store.dispatch( 'Auth/setAdminTrue' )
+  name: 'info',
+  async asyncData({ store }) {
+    store.dispatch('Auth/setAuthTrue')
+    store.dispatch('Auth/setAdminTrue')
   },
 
   data() {
     return {
-      dialog : false,
-      isSuccess : false,
-      isFaild : false,
-      editImg : null,
-      search : '',
-      empID : '6401861',
+      dialog: false,
+      isSuccess: false,
+      isFaild: false,
+      editImg: null,
+      search: '',
+      empID: '6401861',
 
-      typeDept : [
+      typeDept: [
         'จัดซ์็อ',
         'ทรัพยากรบุคคล',
         'บัญชี',
@@ -322,48 +316,50 @@ export default {
         'อาคาร',
       ],
 
-      typePost : ['พนักงานทั่วไป', 'ผู้จัดการ', 'ผู้บริหาร'],
-      status : ['ใช้งาน', 'ไม่ใช้งาน'],
-      empDetail : {
-        EM_ID : '0000000',
-        Fname : '',
-        Lname : '',
-        gender : '',
-        birthday : '',
-        tel : '',
-        department : '',
-        position : '',
-        address : '',
-        salary : 0,
-        startAt : '',
-        isActivate : '',
-        changeAt : '',
-        Img : null,
+      typePost: ['พนักงานทั่วไป', 'ผู้จัดการ', 'ผู้บริหาร'],
+      status: ['ใช้งาน', 'ไม่ใช้งาน'],
+      empDetail: {
+        EM_ID: '0000000',
+        Fname: '',
+        Lname: '',
+        gender: '',
+        birthday: '',
+        tel: '',
+        department: '',
+        position: '',
+        address: '',
+        salary: 0,
+        startAt: '',
+        isActivate: '',
+        changeAt: '',
+        Img: null,
       },
-      searchRules : [
-        ( v ) => v.length === 7 || 'กรุณากรอกรหัสพนักงาน 7 หลัก',
-        ( v ) => !isNaN( v ) || 'กรุณากรอกเป็นตัวเลขเท่านั้น'],
+      searchRules: [
+        (v) => v.length === 7 || 'กรุณากรอกรหัสพนักงาน 7 หลัก',
+        (v) => !isNaN(v) || 'กรุณากรอกเป็นตัวเลขเท่านั้น',
+      ],
 
-      telRules : [
-        ( v ) => !!v || 'กรุณากรอกเบอร์โทร',
-        ( v ) => v.length === 10 || 'กรุณากรอกเบอร์โทรให้ครบ 10 หลัก',
-        ( v ) => !isNaN( v ) || 'กรุณากรอกเบอร์โทรเป็นตัวเลขเท่านั้น',
+      telRules: [
+        (v) => !!v || 'กรุณากรอกเบอร์โทร',
+        (v) => v.length === 10 || 'กรุณากรอกเบอร์โทรให้ครบ 10 หลัก',
+        (v) => !isNaN(v) || 'กรุณากรอกเบอร์โทรเป็นตัวเลขเท่านั้น',
       ],
     }
   },
 
-  methods : {
-    getImgURL( img ) {
-      return URL.createObjectURL( img )
+  methods: {
+    getImgURL(img) {
+      return URL.createObjectURL(img)
     },
 
     getEmployeeDetail() {
       this.editImg = null
       const EM_ID = this.search
-      this.$axios.$get( '/employee/by/' + EM_ID )
-        .then( ( res ) => {
-          console.log( res )
-          if ( res ) {
+      this.$axios
+        .$get('/employee/by/' + EM_ID)
+        .then((res) => {
+          console.log(res)
+          if (res) {
             const {
               EM_ID,
               EM_FNAME,
@@ -378,101 +374,101 @@ export default {
               EM_HIRE_DATE,
               EM_IS_ACTIVATE,
               EM_CHANGE_AT,
-              EM_IMAGE
+              EM_IMAGE,
             } = res
             this.empDetail = {
-              EM_ID : EM_ID,
-              Fname : EM_FNAME,
-              Lname : EM_LNAME,
-              gender : EM_GENDER,
-              birthday : moment( EM_BRITHDAY ).format( 'DD/MM/YYYY' ),
-              tel : EM_TEL,
-              department : department.DP_NAME,
-              position : position.P_NAME,
-              address : EM_ADDRESS,
-              salary : EM_SALARY,
-              startAt : moment( EM_HIRE_DATE ).format( 'DD/MM/YYYY' ),
-              isActivate : EM_IS_ACTIVATE ? 'ใช้งาน' : 'ไม่ใช้งาน',
-              changeAt : moment( EM_CHANGE_AT ).format( 'DD/MM/YYYY' ),
-              Img : this.convertBlobToURL( EM_IMAGE ),
+              EM_ID: EM_ID,
+              Fname: EM_FNAME,
+              Lname: EM_LNAME,
+              gender: EM_GENDER,
+              birthday: moment(EM_BRITHDAY).format('DD/MM/YYYY'),
+              tel: EM_TEL,
+              department: department.DP_NAME,
+              position: position.P_NAME,
+              address: EM_ADDRESS,
+              salary: EM_SALARY,
+              startAt: moment(EM_HIRE_DATE).format('DD/MM/YYYY'),
+              isActivate: EM_IS_ACTIVATE ? 'ใช้งาน' : 'ไม่ใช้งาน',
+              changeAt: moment(EM_CHANGE_AT).format('DD/MM/YYYY'),
+              Img: this.convertBlobToURL(EM_IMAGE),
             }
           } else {
-            this.$swal( 'ไม่พบข้อมูล', 'กรุณากรอกรหัสพนักงานใหม่', 'error' )
+            this.$swal('ไม่พบข้อมูล', 'กรุณากรอกรหัสพนักงานใหม่', 'error')
             this.empDetail = {
-              EM_ID : '0000000',
-              Fname : '',
-              Lname : '',
-              gender : '',
-              birthday : '',
-              tel : '',
-              department : '',
-              position : '',
-              address : '',
-              salary : 0,
-              startAt : '',
-              isActivate : '',
-              changeAt : '',
-              Img : null,
+              EM_ID: '0000000',
+              Fname: '',
+              Lname: '',
+              gender: '',
+              birthday: '',
+              tel: '',
+              department: '',
+              position: '',
+              address: '',
+              salary: 0,
+              startAt: '',
+              isActivate: '',
+              changeAt: '',
+              Img: null,
             }
           }
-        } )
-        .catch( ( err ) => {
-          console.log( err )
-        } )
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
 
     updateEmpDetail() {
       const EM_ID = this.empDetail.EM_ID
       const formData = new FormData()
-      formData.append( 'EM_IMAGE', this.editImg )
-      formData.append( 'EM_FNAME', this.empDetail.Fname )
-      formData.append( 'EM_LNAME', this.empDetail.Lname )
-      formData.append( 'EM_ADDRESS', this.empDetail.address )
-      formData.append( 'EM_TEL', this.empDetail.tel )
-      formData.append( 'EM_SALARY', this.empDetail.salary )
-      formData.append( 'EM_IS_ACTIVATE', this.empDetail.isActivate === 'ใช้งาน' )
-      formData.append( 'DP_NAME', this.empDetail.department )
-      formData.append( 'P_NAME', this.empDetail.position )
+      formData.append('EM_IMAGE', this.editImg)
+      formData.append('EM_FNAME', this.empDetail.Fname)
+      formData.append('EM_LNAME', this.empDetail.Lname)
+      formData.append('EM_ADDRESS', this.empDetail.address)
+      formData.append('EM_TEL', this.empDetail.tel)
+      formData.append('EM_SALARY', this.empDetail.salary)
+      formData.append('EM_IS_ACTIVATE', this.empDetail.isActivate === 'ใช้งาน')
+      formData.append('DP_NAME', this.empDetail.department)
+      formData.append('P_NAME', this.empDetail.position)
 
-      this.$axios.$put( '/employee/' + EM_ID, formData )
-        .then( ( res ) => {
-          if ( res ) {
-            this.$swal( 'แก้ไขข้อมูลสำเร็จ', '', 'success' )
+      this.$axios
+        .$put('/employee/' + EM_ID, formData)
+        .then((res) => {
+          if (res) {
+            this.$swal('แก้ไขข้อมูลสำเร็จ', '', 'success')
             this.getEmployeeDetail()
-          } else this.$swal( 'แก้ไขข้อมูลล้มเหลว', '', 'error' )
-
-        } )
-        .catch( ( err ) => {
+          } else this.$swal('แก้ไขข้อมูลล้มเหลว', '', 'error')
+        })
+        .catch((err) => {
           this.isFaild = true
           this.dialog = false
-          console.log( err )
-        } )
-
+          console.log(err)
+        })
     },
 
     async getPaySlip() {
       const EM_ID = this.empDetail.EM_ID
-      // open new tab in localhost 4000
-      window.open( 'http://localhost:4000/payment/by/' + EM_ID, '_blank' )
+
+      const baseURL = this.$axios.defaults.baseURL
+      window.open(`${baseURL}/payment/by/` + EM_ID, '_blank')
     },
 
     async printAllPaySlip() {
-      window.open( 'http://localhost:4000/payment/all', '_blank' )
+      const baseURL = this.$axios.defaults.baseURL
+      window.open(`${baseURL}/payment/all`, '_blank')
     },
 
-    convertBlobToURL( blob ) {
+    convertBlobToURL(blob) {
       return (
         'data:image/jpeg;base64,' +
         new Buffer(
-          new Uint8Array( blob.data ).reduce(
-            ( data, byte ) => data + String.fromCharCode( byte ),
+          new Uint8Array(blob.data).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
             ''
           ),
           'binary'
-        ).toString( 'base64' )
+        ).toString('base64')
       )
     },
-
   },
 }
 </script>
