@@ -140,8 +140,8 @@ export default {
   components : { denyTable, approveTable, allTable },
   name : 'LeaveWork',
   async asyncData( { store, $axios } ) {
-    store.dispatch( 'Auth/setAuthTrue' )
-    store.dispatch( 'Auth/setAdminTrue' )
+    // store.dispatch( 'Auth/setAuthTrue' )
+    // store.dispatch( 'Auth/setAdminTrue' )
 
     const leaveDoc = await $axios.$get( '/leaveWork/pending' )
     const approveDoc = await $axios.$get( '/leaveWork/approved' )
@@ -193,7 +193,7 @@ export default {
           text : 'กรุณากรอกรหัสพนักงานให้ถูกต้อง หรือ ไม่มีข้อมูลการลางาน',
         } )
         this.search = ''
-        this.refreshData()
+        await this.refreshData()
       } else {
         const pending = leaveWork.filter( ( item ) => item.L_STATUS === 'p' )
         const approved = leaveWork.filter( ( item ) => item.L_STATUS === 't' )

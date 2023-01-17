@@ -1,3 +1,4 @@
+<script src="../../store/Auth.js"></script>
 <template>
   <div class="pt-12 d-flex justify-center align-center">
     <v-card class="pa-6" elevation="6" width="450" height="650">
@@ -88,27 +89,25 @@ export default {
   methods: {
     async login() {
 
-      const employee = await this.$axios.$post('auth/hrLogin', {
-        EM_ID: this.id,
-        EM_PASSWORD: this.password,
-      })
 
-      if (employee) {
-        await this.$store.dispatch('Auth/setAuthTrue')
-        await this.$store.dispatch('Auth/setAdminTrue')
-        await this.$store.dispatch('Auth/setUser',{EM_ID : employee.EM_ID})
-        this.$router.push('/HR/Dashbord')
-      } else {
-        await this.$store.dispatch( 'Auth/setAuthFalse' )
-        this.$swal( {
-          icon : 'error',
-          title : 'เข้าสู่ระบบไม่สำเร็จ',
-          text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
-        } )
-        setTimeout( () => {
-          this.$router.go()
-        }, 1000 )
-      }
+
+      //
+      // if (employee) {
+      //   await this.$store.dispatch('Auth/setAuthTrue')
+      //   await this.$store.dispatch('Auth/setAdminTrue')
+      //   await this.$store.dispatch('Auth/setUser',{EM_ID : employee.EM_ID})
+      //   this.$router.push('/HR/Dashbord')
+      // } else {
+      //   await this.$store.dispatch( 'Auth/setAuthFalse' )
+      //   this.$swal( {
+      //     icon : 'error',
+      //     title : 'เข้าสู่ระบบไม่สำเร็จ',
+      //     text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
+      //   } )
+      //   setTimeout( () => {
+      //     this.$router.go()
+      //   }, 1000 )
+      // }
 
     },
   },

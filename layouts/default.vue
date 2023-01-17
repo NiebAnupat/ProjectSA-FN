@@ -1,21 +1,18 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-model="drawer"
       app
       expand-on-hover
-      v-if="isAuth"
+      v-if="!!$store.getters['Auth/user'].EM_ID"
       color="white"
     >
       <v-list-item class="my-2 black--text">
         <v-list-item-avatar class="ml-n2"
           ><v-img
-            :src="isAdmin ? admin.avatar : user.avatar"
+            :src="user.avatar"
           ></v-img></v-list-item-avatar
         ><v-list-item-content
-          ><v-list-item-title>{{
-            isAdmin ? admin.name : user.name
-          }}</v-list-item-title></v-list-item-content
+          ><v-list-item-title>{{ $store.getters['Auth/user'].EM_FNAME }} &nbsp {{ $store.getters['Auth/user'].EM_LNAME }}</v-list-item-title></v-list-item-content
         ></v-list-item
       >
 
@@ -23,7 +20,7 @@
 
       <v-list>
         <v-list-item
-          v-for="item in isAdmin ? adminItems : userItems"
+          v-for="item in $store.getters['Auth/isAdmin'] ? adminItems : userItems"
           :key="item.title"
           link
           v-on:click="item.action"
@@ -63,35 +60,11 @@
 export default {
   name: 'DefaultLayout',
 
-  async asyncData({ store }) {
-    const isAuth = await store.getters['Auth/isAuth']
-    const isAdmin = await store.getters['Auth/isAdmin']
-
-    return {
-      isAuth,
-      isAdmin,
-    }
-  },
-
-  computed: {
-    isAuth() {
-      return this.$store.getters['Auth/isAuth']
-    },
-
-    isAdmin() {
-      return this.$store.getters['Auth/isAdmin']
-    },
-  },
 
   data() {
     return {
-      drawer: true,
       user: {
         name: 'นางสาว สุชานาถ คุ้มบุ่งคล้า',
-        avatar: 'https://ui-avatars.com/api/background=random',
-      },
-      admin: {
-        name: 'นาย ธนพล สุขสวัสดิ์',
         avatar: 'https://ui-avatars.com/api/background=random',
       },
 
@@ -130,9 +103,7 @@ export default {
 
   methods: {
     logout() {
-      this.$store.dispatch('Auth/setAuthFalse')
-      this.$store.dispatch('Auth/setAdminFalse')
-      this.$store.dispatch('Auth/setUser', {EM_ID:''})
+      this.$store.commit('Auth/setUser', {EM_ID: ''})
       this.$router.push('/')
     },
   },

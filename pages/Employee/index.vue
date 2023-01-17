@@ -66,11 +66,6 @@ export default {
   name : 'Index',
   layout : 'default',
 
-  mounted() {
-    setTimeout( () => {
-      this.$store.dispatch( 'Auth/setAuthFalse' )
-    }, 250 )
-  },
 
   data() {
     return {
@@ -91,18 +86,18 @@ export default {
   },
   methods : {
     async login() {
-
-      const employee = await this.$axios.$post( 'auth/login', {
-        EM_ID : this.id,
-        EM_PASSWORD : this.password,
-      } )
-
-      if ( employee ) {
-        await this.$store.dispatch( 'Auth/setAuthTrue' )
-        await this.$store.dispatch( 'Auth/setUser', { EM_ID : employee.EM_ID } )
-        await this.$router.push( '/employee/Checkin' )
-      } else {
-        await this.$store.dispatch( 'Auth/setAuthFalse' )
+      const token = await this.$axios.$post('auth/Login', {
+        EM_ID: this.id,
+        EM_PASSWORD: this.password,
+      })
+      if (token){
+        const employee = await this.$axios.$post('auth/auth', {
+          token: token,
+        })
+        this.$store.commit('Auth/setToken', token)
+        this.$store.commit('Auth/setUser', employee)
+        this.$router.push('/employee/Checkin')
+      }else{
         this.$swal( {
           icon : 'error',
           title : 'เข้าสู่ระบบไม่สำเร็จ',
@@ -111,8 +106,29 @@ export default {
         setTimeout( () => {
           this.$router.go()
         }, 1000 )
-
       }
+
+      // const employee = await this.$axios.$post( 'auth/login', {
+      //   EM_ID : this.id,
+      //   EM_PASSWORD : this.password,
+      // } )
+      //
+      // if ( employee ) {
+      //   await this.$store.dispatch( 'Auth/setAuthTrue' )
+      //   await this.$store.dispatch( 'Auth/setUser', { EM_ID : employee.EM_ID } )
+      //   await this.$router.push( '/employee/Checkin' )
+      // } else {
+      //   await this.$store.dispatch( 'Auth/setAuthFalse' )
+      //   this.$swal( {
+      //     icon : 'error',
+      //     title : 'เข้าสู่ระบบไม่สำเร็จ',
+      //     text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
+      //   } )
+      //   setTimeout( () => {
+      //     this.$router.go()
+      //   }, 1000 )
+      //
+      // }
 
     },
   },

@@ -48,11 +48,7 @@ export default {
   name: 'index',
   layout: 'default',
 
-  mounted() {
-    setTimeout(() => {
-      this.$store.dispatch('Auth/setAuthFalse')
-    }, 250)
-  },
+
 }
 </script>
 <style lang="scss"></style>

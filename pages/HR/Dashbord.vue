@@ -80,8 +80,8 @@ var moment = require( 'moment' )
 export default {
   name : 'Dashbord',
   async asyncData( { store, $axios } ) {
-    store.dispatch( 'Auth/setAuthTrue' )
-    store.dispatch( 'Auth/setAdminTrue' )
+    // store.dispatch( 'Auth/setAuthTrue' )
+    // store.dispatch( 'Auth/setAdminTrue' )
 
 
     const Emp = await $axios.$get( '/employee/all' )

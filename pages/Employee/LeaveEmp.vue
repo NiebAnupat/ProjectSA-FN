@@ -131,7 +131,7 @@
         </template>
       </v-snackbar>
       <v-snackbar v-model="isFaild" color="red" :timeout="2300">
-        จำนวนวันลาไม่เพียงพอ
+        จำนวนวันลาไม่เพียงพอ กรุณาตรวจสอบ
         <template v-slot:action="{ attrs }">
         </template>
       </v-snackbar>
@@ -142,9 +142,6 @@
 export default {
   name: 'LeaveEmp',
 
-  async asyncData({ store }) {
-    store.dispatch('Auth/setAuthTrue')
-  },
 
   data() {
     return {
