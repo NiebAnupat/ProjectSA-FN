@@ -54,20 +54,14 @@ export default {
   },
 
   methods : {
-    formatTime( time ) {
+    formatTime( date ) {
 
-
-
-      if ( time == null ) {
+      if ( date == null ) {
         return 'ยังไม่ออกงาน'
       } else {
-        // return time
-        // const m = moment( time )
-        // // to thai time
-        // return m.add( 7, 'hours' ).format( 'HH:mm:ss' )
-        // console.log(m)
-        // return m.format( 'HH:mm')
-        return time
+        const d = new Date(date).toUTCString();
+        const time = d.split(" ")[4].split(":");
+        return `${time[0]}:${time[1]} น.`;
       }
     },
   }

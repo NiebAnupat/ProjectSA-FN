@@ -293,11 +293,7 @@ import PDFMerger from 'pdf-merger-js/browser'
 
 export default {
   name: 'info',
-  async asyncData({ store }) {
-    store.dispatch('Auth/setAuthTrue')
-    store.dispatch('Auth/setAdminTrue')
-  },
-
+  middleware : 'auth',
   data() {
     return {
       dialog: false,
@@ -305,7 +301,7 @@ export default {
       isFaild: false,
       editImg: null,
       search: '',
-      empID: '6401861',
+      empID: '',
 
       typeDept: [
         'จัดซ์็อ',
@@ -449,12 +445,12 @@ export default {
       const EM_ID = this.empDetail.EM_ID
 
       const baseURL = this.$axios.defaults.baseURL
-      window.open(`${baseURL}/payment/by/` + EM_ID, '_blank')
+      window.open(`${baseURL}payment/by/` + EM_ID, '_blank')
     },
 
     async printAllPaySlip() {
       const baseURL = this.$axios.defaults.baseURL
-      window.open(`${baseURL}/payment/all`, '_blank')
+      window.open(`${baseURL}payment/all`, '_blank')
     },
 
     convertBlobToURL(blob) {

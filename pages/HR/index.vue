@@ -60,15 +60,11 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+import CookieParser from 'cookieparser'
 export default {
   name: 'Index',
   layout: 'default',
-
-  mounted() {
-    setTimeout(() => {
-      this.$store.dispatch('Auth/setAdminFalse')
-    }, 250)
-  },
 
   data() {
     return {
@@ -89,25 +85,36 @@ export default {
   methods: {
     async login() {
 
+      const token = await this.$axios.$post('auth/hrLogin', {
+        EM_ID: this.id,
+        EM_PASSWORD: this.password,
+      })
+
+      if (token){
+        const employee = await this.$axios.$post('auth/auth', {
+          token: token,
+        })
+
+        // save token to cookie
+        Cookies.set('token', token)
+
+        this.$store.commit('Auth/setUser', employee)
+        this.$store.commit('Auth/setAdmin', true)
+        this.$router.push('/HR/Dashboard')
+      }else{
+        this.$swal( {
+          icon : 'error',
+          title : 'เข้าสู่ระบบไม่สำเร็จ',
+          text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
+        } )
+        setTimeout( () => {
+          this.$router.go()
+        }, 1000 )
+      }
 
 
-      //
-      // if (employee) {
-      //   await this.$store.dispatch('Auth/setAuthTrue')
-      //   await this.$store.dispatch('Auth/setAdminTrue')
-      //   await this.$store.dispatch('Auth/setUser',{EM_ID : employee.EM_ID})
-      //   this.$router.push('/HR/Dashbord')
-      // } else {
-      //   await this.$store.dispatch( 'Auth/setAuthFalse' )
-      //   this.$swal( {
-      //     icon : 'error',
-      //     title : 'เข้าสู่ระบบไม่สำเร็จ',
-      //     text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
-      //   } )
-      //   setTimeout( () => {
-      //     this.$router.go()
-      //   }, 1000 )
-      // }
+
+
 
     },
   },

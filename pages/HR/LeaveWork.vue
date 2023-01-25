@@ -139,9 +139,8 @@ const moment = require( 'moment' )
 export default {
   components : { denyTable, approveTable, allTable },
   name : 'LeaveWork',
+  middleware : 'auth',
   async asyncData( { store, $axios } ) {
-    // store.dispatch( 'Auth/setAuthTrue' )
-    // store.dispatch( 'Auth/setAdminTrue' )
 
     const leaveDoc = await $axios.$get( '/leaveWork/pending' )
     const approveDoc = await $axios.$get( '/leaveWork/approved' )

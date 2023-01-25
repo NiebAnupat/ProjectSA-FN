@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
 export default {
   name: 'DefaultLayout',
 
@@ -85,7 +86,7 @@ export default {
         {
           title: 'หน้าหลัก',
           icon: 'mdi-home',
-          action: () => this.$router.push('/HR/Dashbord'),
+          action: () => this.$router.push('/HR/Dashboard'),
         },
         {
           title: 'ข้อมูลพนักงาน',
@@ -102,9 +103,11 @@ export default {
   },
 
   methods: {
-    logout() {
-      this.$store.commit('Auth/setUser', {EM_ID: ''})
-      this.$router.push('/')
+    async logout(n) {
+      this.$store.commit('Auth/setUser', { EM_ID: '' })
+      this.$store.commit('Auth/setAdmin', false)
+      await Cookies.remove('token')
+      await this.$router.go(n);
     },
   },
 }

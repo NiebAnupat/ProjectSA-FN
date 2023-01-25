@@ -106,8 +106,7 @@
 <script>
 export default {
   name: "Checkin",
-
-
+  middleware : 'auth',
   data() {
     return {
       checkIn: false,

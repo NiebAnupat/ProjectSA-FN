@@ -47,7 +47,7 @@
 export default {
   name: 'index',
   layout: 'default',
-
+  middleware : 'auth',
 
 }
 </script>

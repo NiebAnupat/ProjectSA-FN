@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   name : 'Index',
   layout : 'default',
@@ -94,7 +95,9 @@ export default {
         const employee = await this.$axios.$post('auth/auth', {
           token: token,
         })
-        this.$store.commit('Auth/setToken', token)
+
+        Cookies.set('token', token)
+
         this.$store.commit('Auth/setUser', employee)
         this.$router.push('/employee/Checkin')
       }else{
@@ -108,27 +111,6 @@ export default {
         }, 1000 )
       }
 
-      // const employee = await this.$axios.$post( 'auth/login', {
-      //   EM_ID : this.id,
-      //   EM_PASSWORD : this.password,
-      // } )
-      //
-      // if ( employee ) {
-      //   await this.$store.dispatch( 'Auth/setAuthTrue' )
-      //   await this.$store.dispatch( 'Auth/setUser', { EM_ID : employee.EM_ID } )
-      //   await this.$router.push( '/employee/Checkin' )
-      // } else {
-      //   await this.$store.dispatch( 'Auth/setAuthFalse' )
-      //   this.$swal( {
-      //     icon : 'error',
-      //     title : 'เข้าสู่ระบบไม่สำเร็จ',
-      //     text : 'กรุณาตรวจสอบรหัสพนักงานและรหัสผ่าน',
-      //   } )
-      //   setTimeout( () => {
-      //     this.$router.go()
-      //   }, 1000 )
-      //
-      // }
 
     },
   },

@@ -141,8 +141,7 @@
 <script>
 export default {
   name: 'LeaveEmp',
-
-
+  middleware : 'auth',
   data() {
     return {
       isSuccess: '',
@@ -175,6 +174,7 @@ export default {
           setTimeout(() => {
             this.isSuccess = false
           }, 2000)
+          this.$router.go();
         } else {
           this.isFaild = true
           setTimeout(() => {

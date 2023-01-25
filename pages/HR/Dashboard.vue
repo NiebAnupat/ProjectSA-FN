@@ -78,11 +78,9 @@ import leaveEmp from '~/components/HR/leaveEmp.vue'
 
 var moment = require( 'moment' )
 export default {
-  name : 'Dashbord',
-  async asyncData( { store, $axios } ) {
-    // store.dispatch( 'Auth/setAuthTrue' )
-    // store.dispatch( 'Auth/setAdminTrue' )
-
+  name : 'Dashboard',
+  middleware : 'auth',
+  async asyncData( {  $axios } ) {
 
     const Emp = await $axios.$get( '/employee/all' )
     const CountEmp = Emp.length || 0
@@ -92,7 +90,6 @@ export default {
 
     const todayLeave = await $axios.$get( '/leaveWork/todayApproved' )
     const CountLeave = todayLeave.length || 0
-
 
 
     return { Emp, todayCheckin,todayLeave, CountEmp, CountCheckin,CountLeave }
